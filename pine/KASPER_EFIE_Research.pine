@@ -1,0 +1,134 @@
+// This Pine Script® code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// KASPER V4 · EFIE Research — WTI fundamentals from exchange-traded data (research only)
+//
+// A standalone research indicator. It does not modify, replace or read your existing
+// MCL indicator, places no orders, defines no alerts and emits no buy/sell signals.
+// It shows what Pine can compute from market data the chart can request:
+//   • WTI term structure (M1–M2 spread) and its z-score
+//   • 3-2-1, diesel (ULSD) and gasoline (RBOB) crack spreads, USD/bbl
+//   • Brent–WTI spread (previous completed session — never the forming bar)
+//   • a tanker-freight proxy (BWET, previous completed session)
+//   • the scheduled EIA (Wed 10:30 ET) and API (Tue 16:30 ET) windows
+// EIA/API figures vs consensus, TD3C freight futures history, the thesis board and the
+// validation evidence are not available to Pine; they are on the EFIE dashboard.
+//
+// Symbols are inputs. ICE Brent needs an ICE data permission on TradingView; without one,
+// set "Brent front month" to TVC:UKOIL (a CFD proxy) or leave the Brent row as n/a.
+//
+// Validation status (EFIE milestone 1, see docs/evidence): none of these quantities showed
+// out-of-sample predictive skill for 1h, 4h or next-session WTI returns after correction for
+// multiple testing. Treat every value here as context, not as a signal.
+
+//@version=6
+indicator("KASPER EFIE Research · WTI fundamentals (research only)", shorttitle = "EFIE-R", overlay = false, precision = 2)
+
+// ───────────────────────── Inputs
+grpS = "Symbols"
+symM1 = input.symbol("NYMEX:CL1!", "WTI front month", group = grpS)
+symM2 = input.symbol("NYMEX:CL2!", "WTI second month", group = grpS)
+symRB = input.symbol("NYMEX:RB1!", "RBOB gasoline front month", group = grpS)
+symHO = input.symbol("NYMEX:HO1!", "ULSD front month", group = grpS)
+symBR = input.symbol("ICEEUR:BRN1!", "Brent front month", group = grpS)
+symFR = input.symbol("AMEX:BWET", "Tanker-freight proxy", group = grpS)
+
+grpD = "Display"
+panel = input.string("M1–M2 spread", "Plot", options = ["M1–M2 spread", "3-2-1 crack", "Diesel crack", "Gasoline crack", "Brent–WTI (prev. session)", "Freight proxy 5-session change"], group = grpD)
+mode = input.string("Z-score", "Scale", options = ["Level", "Z-score"], group = grpD)
+zLen = input.int(240, "Z-score lookback (chart bars)", minval = 20, group = grpD)
+shadeRegime = input.bool(true, "Shade backwardation (M1 > M2)", group = grpD)
+markEIA = input.bool(true, "Mark scheduled EIA window (Wed 10:30 ET)", group = grpD)
+markAPI = input.bool(true, "Mark scheduled API window (Tue 16:30 ET)", group = grpD)
+showTable = input.bool(true, "Show summary table", group = grpD)
+
+// ───────────────────────── Data
+// Same-timeframe requests: no lookahead, so historical bars never see later data.
+same(sym) => request.security(sym, timeframe.period, close, gaps = barmerge.gaps_off, lookahead = barmerge.lookahead_off)
+// Previous completed daily value: `close[1]` with lookahead_on is the standard
+// non-repainting form — it only ever returns a session that has already settled.
+prevDay(sym) => request.security(sym, "D", close[1], lookahead = barmerge.lookahead_on)
+prevDayChg5(sym) => request.security(sym, "D", math.log(close[1] / close[6]), lookahead = barmerge.lookahead_on)
+
+m1 = same(symM1)
+m2 = same(symM2)
+rb = same(symRB)
+ho = same(symHO)
+wtiPrev = prevDay(symM1)
+brPrev = prevDay(symBR)
+frChg5 = prevDayChg5(symFR)
+
+// ───────────────────────── Quantities (USD/bbl; RB and HO quote USD/gal → × 42)
+spread12 = m1 - m2
+crack321 = (2.0 * rb * 42.0 + ho * 42.0 - 3.0 * m1) / 3.0
+crackDiesel = ho * 42.0 - m1
+crackGas = rb * 42.0 - m1
+brentWti = brPrev - wtiPrev
+
+zscore(x) =>
+    mu = ta.sma(x, zLen)
+    sd = ta.stdev(x, zLen)
+    sd > 0 ? (x - mu) / sd : na
+
+level = switch panel
+    "M1–M2 spread" => spread12
+    "3-2-1 crack" => crack321
+    "Diesel crack" => crackDiesel
+    "Gasoline crack" => crackGas
+    "Brent–WTI (prev. session)" => brentWti
+    => frChg5
+
+// ta.* functions keep history only when called on every bar, so all z-scores are
+// computed here, unconditionally, and only selected afterwards.
+zLevel = zscore(level)
+zSpread = zscore(spread12)
+zCrack321 = zscore(crack321)
+zDiesel = zscore(crackDiesel)
+zGas = zscore(crackGas)
+value = mode == "Z-score" ? zLevel : level
+
+// ───────────────────────── Scheduled release windows (holiday weeks shift; Pine cannot know)
+inBarAt(h, mi, dow) =>
+    tz = "America/New_York"
+    t0 = timestamp(tz, year(time, tz), month(time, tz), dayofmonth(time, tz), h, mi, 0)
+    timeframe.isintraday and dayofweek(time, tz) == dow and time <= t0 and t0 < time_close
+
+eiaBar = markEIA and inBarAt(10, 30, dayofweek.wednesday)
+apiBar = markAPI and inBarAt(16, 30, dayofweek.tuesday)
+
+// ───────────────────────── Plots
+lineColor = color.new(#2a78d6, 0)
+plot(value, "EFIE value", color = lineColor, linewidth = 2)
+hline(0, "Zero", color = color.new(color.gray, 50), linestyle = hline.style_solid)
+bgcolor(shadeRegime and spread12 > 0 ? color.new(#2a78d6, 93) : na, title = "Backwardation")
+bgcolor(eiaBar ? color.new(#eda100, 75) : na, title = "EIA window")
+bgcolor(apiBar ? color.new(#6250d6, 80) : na, title = "API window")
+
+// ───────────────────────── Summary table
+fmt(x, f) => na(x) ? "n/a" : str.tostring(x, f)
+
+var table t = table.new(position.top_right, 3, 9, bgcolor = color.new(color.black, 85), border_width = 1)
+if showTable and barstate.islast
+    table.cell(t, 0, 0, "EFIE research", text_color = color.white, text_size = size.small)
+    table.cell(t, 1, 0, "level", text_color = color.white, text_size = size.small)
+    table.cell(t, 2, 0, "z", text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 1, "M1–M2 spread", text_color = color.white, text_size = size.small)
+    table.cell(t, 1, 1, fmt(spread12, "#.00"), text_color = color.white, text_size = size.small)
+    table.cell(t, 2, 1, fmt(zSpread, "#.00"), text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 2, "3-2-1 crack", text_color = color.white, text_size = size.small)
+    table.cell(t, 1, 2, fmt(crack321, "#.00"), text_color = color.white, text_size = size.small)
+    table.cell(t, 2, 2, fmt(zCrack321, "#.00"), text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 3, "Diesel crack", text_color = color.white, text_size = size.small)
+    table.cell(t, 1, 3, fmt(crackDiesel, "#.00"), text_color = color.white, text_size = size.small)
+    table.cell(t, 2, 3, fmt(zDiesel, "#.00"), text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 4, "Gasoline crack", text_color = color.white, text_size = size.small)
+    table.cell(t, 1, 4, fmt(crackGas, "#.00"), text_color = color.white, text_size = size.small)
+    table.cell(t, 2, 4, fmt(zGas, "#.00"), text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 5, "Brent–WTI (prev.)", text_color = color.white, text_size = size.small)
+    table.cell(t, 1, 5, fmt(brentWti, "#.00"), text_color = color.white, text_size = size.small)
+    table.cell(t, 2, 5, "", text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 6, "Freight proxy 5-sess.", text_color = color.white, text_size = size.small)
+    table.cell(t, 1, 6, na(frChg5) ? "n/a" : str.tostring(frChg5 * 100, "#.0") + "%", text_color = color.white, text_size = size.small)
+    table.cell(t, 2, 6, "", text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 7, "Curve", text_color = color.white, text_size = size.small)
+    table.cell(t, 1, 7, spread12 > 0 ? "backwardation" : "contango", text_color = color.white, text_size = size.small)
+    table.cell(t, 2, 7, "", text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 8, "Research only · not a signal", text_color = color.new(color.white, 30), text_size = size.tiny)

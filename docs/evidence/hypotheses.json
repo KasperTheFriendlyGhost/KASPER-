@@ -1,0 +1,213 @@
+{
+  "sanity": {
+    "S1_eia_surprise_vs_release_bar_return": {
+      "question": "Does the hourly bar containing the EIA release move against the crude surprise?",
+      "expected_sign": -1,
+      "n": 93,
+      "rho": 0.003372027095580555,
+      "ci": [
+        -0.1700787202446612,
+        0.16498872069549894
+      ],
+      "p": 0.951,
+      "start": "2024-12-27 00:00:00+00:00",
+      "end": "2026-10-09 00:00:00+00:00"
+    },
+    "S2_api_change_vs_release_bar_return": {
+      "question": "Does the hourly bar containing the API release move against the API crude change?",
+      "expected_sign": -1,
+      "n": 82,
+      "rho": -0.1169037538778691,
+      "ci": [
+        -0.3256175054618765,
+        0.13655019583790642
+      ],
+      "p": 0.428,
+      "start": "2025-01-03 00:00:00+00:00",
+      "end": "2026-09-25 00:00:00+00:00"
+    },
+    "S3_eia_surprise_vs_release_day_session": {
+      "question": "Does the release-day session (open\u2192settle) move against the crude surprise?",
+      "expected_sign": -1,
+      "n": 595,
+      "rho": -0.06441278525556662,
+      "ci": [
+        -0.1452858627578505,
+        0.022582257325912496
+      ],
+      "p": 0.15,
+      "start": "2015-04-11 00:00:00+00:00",
+      "end": "2026-10-09 00:00:00+00:00"
+    },
+    "S4_eia_surprise_vs_settle_to_settle": {
+      "question": "Prior settlement \u2192 release-day settlement (includes the API reaction the evening before).",
+      "expected_sign": -1,
+      "post_hoc": true,
+      "n": 595,
+      "rho": -0.1578419694092809,
+      "ci": [
+        -0.23551419638738155,
+        -0.0705491128369863
+      ],
+      "p": 0.0,
+      "start": "2015-04-11 00:00:00+00:00",
+      "end": "2026-10-09 00:00:00+00:00"
+    },
+    "S5_eia_minus_api_vs_release_day_session": {
+      "question": "Does the EIA figure's deviation from the API figure move the release-day session against it?",
+      "expected_sign": -1,
+      "post_hoc": true,
+      "n": 447,
+      "rho": -0.02191876454794591,
+      "ci": [
+        -0.11803647574490914,
+        0.0749916626333611
+      ],
+      "p": 0.672,
+      "start": "2018-02-16 00:00:00+00:00",
+      "end": "2026-10-09 00:00:00+00:00"
+    }
+  },
+  "family": {
+    "H1_eia_surprise_drift_1h": {
+      "question": "After the release bar closes, does the next hour continue (or reverse) the surprise?",
+      "n": 93,
+      "rho": 0.1270030736176181,
+      "ci": [
+        -0.05417607670001663,
+        0.2847246573329042
+      ],
+      "p": 0.162,
+      "start": "2024-12-27 00:00:00+00:00",
+      "end": "2026-10-09 00:00:00+00:00",
+      "p_holm": 1.0,
+      "significant_after_holm": false
+    },
+    "H2_eia_surprise_drift_4h": {
+      "question": "Same, over the next four hours.",
+      "n": 93,
+      "rho": 0.10041478917370414,
+      "ci": [
+        -0.08125950161161333,
+        0.26306948666985247
+      ],
+      "p": 0.276,
+      "start": "2024-12-27 00:00:00+00:00",
+      "end": "2026-10-09 00:00:00+00:00",
+      "p_holm": 1.0,
+      "significant_after_holm": false
+    },
+    "H3_eia_surprise_next_session": {
+      "question": "Does the crude surprise predict the next session (open\u2192settle) after release day?",
+      "n": 595,
+      "rho": 0.021398463798779632,
+      "ci": [
+        -0.053906881279585324,
+        0.10770191941491145
+      ],
+      "p": 0.517,
+      "start": "2015-04-11 00:00:00+00:00",
+      "end": "2026-10-09 00:00:00+00:00",
+      "p_holm": 1.0,
+      "significant_after_holm": false
+    },
+    "H4_api_surprise_predicts_eia_surprise": {
+      "question": "Does the API surprise (Tuesday) predict the EIA surprise (Wednesday)?",
+      "n": 267,
+      "rho": 0.6886161403845014,
+      "ci": [
+        0.607560286167169,
+        0.7538290435710882
+      ],
+      "p": 0.0,
+      "start": "2020-12-04 00:00:00+00:00",
+      "end": "2026-10-09 00:00:00+00:00",
+      "p_holm": 0.0,
+      "significant_after_holm": true
+    },
+    "H5_api_change_drift_until_eia": {
+      "question": "Does the API crude change predict the move from the API bar close to just before EIA?",
+      "n": 81,
+      "rho": -0.12802619692863593,
+      "ci": [
+        -0.34947067569770124,
+        0.0801314443723012
+      ],
+      "p": 0.22,
+      "start": "2025-01-03 00:00:00+00:00",
+      "end": "2026-09-25 00:00:00+00:00",
+      "p_holm": 1.0,
+      "significant_after_holm": false
+    },
+    "H6_cushing_change_vs_next5_spread_change": {
+      "question": "Do Cushing builds (draws) precede a weaker (stronger) M1\u2013M2 spread over 5 sessions?",
+      "n": 259,
+      "rho": -0.013828773748864515,
+      "ci": [
+        -0.15592137140775494,
+        0.10219992040966626
+      ],
+      "p": 0.758,
+      "start": "2020-04-17 00:00:00+00:00",
+      "end": "2026-10-02 00:00:00+00:00",
+      "p_holm": 1.0,
+      "significant_after_holm": false
+    },
+    "H7_crack321_chg5_vs_next_session": {
+      "question": "Does 5-day 3-2-1 crack momentum predict the next WTI session?",
+      "n": 1313,
+      "rho": -0.004416237307721515,
+      "ci": [
+        -0.060918822376980236,
+        0.05256237964312009
+      ],
+      "p": 0.901,
+      "start": "2010-01-11 00:00:00",
+      "end": "2026-10-15 00:00:00",
+      "p_holm": 1.0,
+      "significant_after_holm": false
+    },
+    "H8_spread12_pct_vs_next_session": {
+      "question": "Does the M1\u2013M2 spread (backwardation > 0) predict the next WTI session?",
+      "n": 4226,
+      "rho": -0.011409212172236095,
+      "ci": [
+        -0.0440114503775708,
+        0.019724304164622994
+      ],
+      "p": 0.429,
+      "start": "2010-01-04 00:00:00",
+      "end": "2026-10-16 00:00:00",
+      "p_holm": 1.0,
+      "significant_after_holm": false
+    },
+    "H9_td3c_chg5_vs_next5_brent_wti_change": {
+      "question": "Does rising VLCC freight (TD3C) precede a wider Brent\u2013WTI spread over 5 sessions?",
+      "n": 3707,
+      "rho": -0.018004095060459458,
+      "ci": [
+        -0.06765305348723856,
+        0.032322726045938485
+      ],
+      "p": 0.483,
+      "start": "2010-01-22 00:00:00",
+      "end": "2026-06-15 00:00:00",
+      "p_holm": 1.0,
+      "significant_after_holm": false
+    },
+    "H10_td3c_chg5_vs_next_session": {
+      "question": "Does 5-day VLCC freight momentum predict the next WTI session?",
+      "n": 3706,
+      "rho": -0.004928953338210823,
+      "ci": [
+        -0.03825068371074211,
+        0.028311888251503357
+      ],
+      "p": 0.756,
+      "start": "2010-01-22 00:00:00",
+      "end": "2026-06-15 00:00:00",
+      "p_holm": 1.0,
+      "significant_after_holm": false
+    }
+  }
+}

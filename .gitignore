@@ -1,0 +1,11 @@
+# Market data is licensed (CME via TradingView); keep it out of git.
+data/raw/
+data/processed/
+reports/
+dashboard/*
+!dashboard/README.md
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.venv/
