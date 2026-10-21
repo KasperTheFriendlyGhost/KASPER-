@@ -77,7 +77,8 @@ def build_rows(md: MarketData) -> dict[str, list[dict]]:
     rows["efie_forecasts"] = fc
 
     rel = []
-    for s, x in (daily.get("fundamentals", {}).get("latest") or hourly.get("fundamentals", {}).get("latest") or {}).items():
+    # The hourly report is the most recent, so it carries a release the daily one predates.
+    for s, x in (hourly.get("fundamentals", {}).get("latest") or daily.get("fundamentals", {}).get("latest") or {}).items():
         rig = s == "bh_oil_rigs"
         rel.append(
             {
@@ -115,7 +116,7 @@ def build_rows(md: MarketData) -> dict[str, list[dict]]:
     ]
 
     th = []
-    for t in (daily or hourly).get("theses", []):
+    for t in (hourly or daily).get("theses", []):
         th.append(
             {
                 "id": t["id"],
@@ -135,7 +136,7 @@ def build_rows(md: MarketData) -> dict[str, list[dict]]:
     rows["efie_theses"] = th
 
     notes = [{"kind": "What changed in the last hour", "text": c} for c in hourly.get("changes", [])]
-    notes += [{"kind": "How the indicators fit together", "text": c} for c in (daily or hourly).get("interpretations", [])]
+    notes += [{"kind": "How the indicators fit together", "text": c} for c in (hourly or daily).get("interpretations", [])]
     rows["efie_notes"] = [dict(n, n=i) for i, n in enumerate(notes)]
 
     vrows = []
