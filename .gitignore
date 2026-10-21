@@ -1,9 +1,11 @@
-# Market data is licensed (CME via TradingView); keep it out of git.
-data/raw/
-data/processed/
-reports/
-dashboard/*
-!dashboard/README.md
+# Market data is licensed (CME/ICE via TradingView); keep it out of git.
+# Patterns are anchored to the repository root so they never match package folders
+# (an unanchored "reports/" once hid efie/reports/).
+/data/raw/
+/data/processed/
+/reports/
+/dashboard/*
+!/dashboard/README.md
 __pycache__/
 *.pyc
 .pytest_cache/

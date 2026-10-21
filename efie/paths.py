@@ -1,4 +1,4 @@
-"""Filesystem layout. Everything lives under ``kasper/``; nothing outside it is touched."""
+"""Filesystem layout. Everything lives under the repository root; nothing outside it is touched."""
 
 from __future__ import annotations
 

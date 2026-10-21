@@ -1,11 +1,11 @@
 # Runbook — exact commands
 
-All commands run from the `kasper/` folder. Python 3.11+.
+All commands run from the repository root. Python 3.11+.
 
 ## One-time setup
 
 ```bash
-cd kasper
+cd KASPER-
 python3 -m venv .venv
 source .venv/bin/activate            # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"

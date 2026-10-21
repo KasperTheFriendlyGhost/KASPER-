@@ -31,7 +31,7 @@ A **context panel** in the Desk, fed by EFIE's JSON output, showing information 
 3. the calibrated volatility range for 1h / 4h / next session (labelled "volatility range, not a forecast");
 4. the thesis board, labelled "hypotheses — not validated signals".
 
-Interface: the Desk *reads* `kasper/reports/hourly/latest.json` (keys `forecasts[].shown`, `forecasts[].gate`,
+Interface: the Desk *reads* `reports/hourly/latest.json` in this repository (keys `forecasts[].shown`, `forecasts[].gate`,
 `fundamentals.latest`, `fundamentals.next_scheduled`, `theses`, `freshness`, `changes`). EFIE writes nothing to
 the Desk; the panel has no inputs into order entry, sizing, the risk governor or HARD LOCK, and is behind a
 feature flag that defaults off.

@@ -26,7 +26,7 @@ indicator.
 ## Quick start
 
 ```bash
-cd kasper
+cd KASPER-
 python3 -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 python -m efie status            # needs staged data (see RUNBOOK: data is licensed and not in git)
@@ -39,7 +39,7 @@ python -m pytest
 ## Layout
 
 ```
-kasper/
+KASPER-/
   config/efie.toml              costs, PIT rules, validation and gate thresholds (all assumptions in one place)
   config/catalysts.csv          point-in-time catalyst log (starts empty; nothing back-filled)
   efie/ingest/                  staging with SHA-256 provenance, TradingView result parsers, CSV import

@@ -1,4 +1,4 @@
-"""Command line: ``python -m efie <command>`` (run from the ``kasper/`` folder)."""
+"""Command line: ``python -m efie <command>`` (run from the repository root)."""
 
 from __future__ import annotations
 
