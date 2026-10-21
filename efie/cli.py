@@ -41,6 +41,16 @@ def cmd_stage_auto(a):
         print(f"{Path(f).name}: " + ("already staged" if e is None else f"{e['dataset']} ({e['bytes']:,} bytes)"))
 
 
+def cmd_pull_plan(a):
+    from datetime import datetime, timezone
+
+    from efie.ingest.plan import full_calls, refresh_calls
+
+    today = datetime.now(timezone.utc).date()
+    for c in full_calls(today) if a.full else refresh_calls(today, a.intraday):
+        print(json.dumps(c))
+
+
 def cmd_import_csv(a):
     from efie.ingest.csv_import import import_csv
 
@@ -121,6 +131,20 @@ def cmd_pine_schedule(a):
     print(f"written to {path}", file=sys.stderr)
 
 
+def cmd_dashboard_data(a):
+    from efie.reports.dashboard_data import write_rows
+    from efie.reports.hosted import sha256
+
+    for name, path in write_rows(_md()).items():
+        print(f"{name:20s} {sha256(Path(path))}  {path}")
+
+
+def cmd_hosted_docs(a):
+    from efie.reports.hosted import write_docs
+
+    print(write_docs(json.loads(Path(a.urls).read_text()), a.at))
+
+
 def cmd_evidence(a):
     from efie.reports.evidence import write_evidence
 
@@ -135,6 +159,7 @@ def cmd_run_all(a):
     from efie.reports.dashboard import build_dashboard
     from efie.reports.evidence import write_evidence
     from efie.reports.pine_preview import build_preview
+    from efie.reports.dashboard_data import write_rows
     from efie.reports.pine_schedule import write_schedule
     from efie.validation.diagnostics import run_diagnostics
     from efie.validation.hypotheses import run_hypotheses
@@ -151,6 +176,7 @@ def cmd_run_all(a):
         ("dashboard", lambda: print("  ", build_dashboard(md))),
         ("pine preview", lambda: print("  ", build_preview(md))),
         ("pine release schedule", lambda: print("  ", write_schedule(md))),
+        ("hosted dashboard rows", lambda: print("  ", len(write_rows(md)), "files in dashboard/data")),
         ("evidence summary", lambda: print("  ", write_evidence())),
     ]
     for name, fn in steps:
@@ -173,6 +199,10 @@ def main(argv=None):
     s = sub.add_parser("stage-auto", help="stage saved connector results, named from their content")
     s.add_argument("files", nargs="+")
     s.set_defaults(fn=cmd_stage_auto)
+    s = sub.add_parser("pull-plan", help="the TradingView calls that refresh data/raw (JSON lines)")
+    s.add_argument("--full", action="store_true", help="everything a fresh machine needs (empty data/raw)")
+    s.add_argument("--intraday", action="store_true", help="hourly bars and the calendar only")
+    s.set_defaults(fn=cmd_pull_plan)
     s = sub.add_parser("import-csv", help="import a TradingView chart export or broker OHLCV CSV")
     s.add_argument("file")
     s.add_argument("--series", required=True, help="CL1, CL2, MCL1, RB1, HO1, BRN1, TL1 or BWET")
@@ -193,6 +223,11 @@ def main(argv=None):
     sub.add_parser("dashboard", help="build dashboard/index.html").set_defaults(fn=cmd_dashboard)
     sub.add_parser("pine-preview", help="build dashboard/pine_preview.html").set_defaults(fn=cmd_pine_preview)
     sub.add_parser("pine-schedule", help="EIA/API release times to paste into the Pine indicator").set_defaults(fn=cmd_pine_schedule)
+    sub.add_parser("dashboard-data", help="row files for the hosted dashboard → dashboard/data/").set_defaults(fn=cmd_dashboard_data)
+    s = sub.add_parser("hosted-docs", help="store documents for the hosted dashboard → dashboard/store/")
+    s.add_argument("urls", help="JSON file mapping each row file name to its uploaded /_blob/ url")
+    s.add_argument("--at", help="ISO time the row files were written (default: now)")
+    s.set_defaults(fn=cmd_hosted_docs)
     sub.add_parser("evidence", help="write docs/evidence/EVIDENCE.md").set_defaults(fn=cmd_evidence)
     s = sub.add_parser("run-all", help="the whole research pipeline")
     s.add_argument("--signals", nargs="*")

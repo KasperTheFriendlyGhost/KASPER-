@@ -49,7 +49,8 @@ KASPER-/
   efie/validation/              purged walk-forward, metrics, gate, hypotheses, diagnostics
   efie/backtest/                MCL P&L with costs and rolls, reference baselines, overlays, your signal loader
   efie/explain/                 thesis board and indicator-interaction readings
-  efie/reports/                 hourly/daily reports, dashboard, Pine preview, evidence summary
+  efie/reports/                 hourly/daily reports, dashboard, Pine preview and schedule, hosted-dashboard rows, evidence summary
+  hosted/index.html             page of the hosted claude.ai dashboard (live TradingView prices + engine row files)
   pine/KASPER_EFIE_Research.pine   standalone research indicator (new file; research only, no alerts)
   tests/                        point-in-time, market, validation, backtest, ingest/output tests
   docs/                         the documents above; docs/evidence/ holds aggregate results only

@@ -28,7 +28,16 @@ python -m efie stage <saved_result_file> <dataset_name> '{"tool":"get_ohlcv","sy
 
 A refresh only needs overlapping windows: the latest 5,000 hourly bars per contract (rows format), the
 daily series from 2010, and the calendar from a week back to its forward limit (~31 days). Later snapshots
-win where they overlap; forming bars are dropped automatically.
+win where they overlap; forming bars are dropped automatically. The exact calls, one JSON line each:
+
+```bash
+python -m efie pull-plan              # refresh: 6 hourly + 6 daily OHLCV calls + the calendar window
+python -m efie pull-plan --intraday   # between settlements: hourly bars + calendar only
+python -m efie pull-plan --full       # empty data/raw (a new machine or container): the whole history, then a refresh
+```
+
+In `--full`, a call whose `date_to` is `$next_date_to` continues the call before it: pass that answer's
+`next_date_to`.
 
 **B. On your own machine, prices from TradingView chart exports** (chart → ⋯ → *Export chart data…*, ISO time):
 
@@ -100,6 +109,29 @@ Scheduling (on your machine, after the data refresh step), e.g. crontab in ET:
 ```bash
 python -m efie dashboard              # → dashboard/index.html (self-contained; open in any browser)
 ```
+
+## Hosted dashboard (claude.ai)
+
+The hosted dashboard, **KASPER EFIE Desk**, is a claude.ai Dashboard artifact (private until shared from its
+Share menu). Its page is `hosted/index.html`. Prices and spreads on it (WTI M1/M2, RBOB, ULSD, Brent, BWET,
+TD3C, last 130 sessions) are live queries each reader's page runs on their own TradingView connection; what
+only the engine knows comes from row files the engine writes and Claude attaches:
+
+```bash
+python -m efie dashboard-data         # → dashboard/data/*.json (+ SHA-256 of each), from the latest reports and evidence
+python -m efie hosted-docs urls.json  # → dashboard/store/*.json + batch.json: the dashboard's store documents
+```
+
+`urls.json` maps each row file (`efie_forecasts`, `efie_status`, …) to the `/_blob/<id>` url its upload
+returned. Each file's dataset document records the file's `sha256`, so a refresh uploads only files whose
+hash changed, updates `url`, `name`, `updated` and `sha256` for those, `updated` for the rest, and deletes
+the replaced upload.
+
+**Scheduled refresh.** A Claude scheduled task fires into the session that built EFIE at 7 minutes past each
+hour, 07:07–17:07 ET, Monday to Friday. Each run: `pull-plan` (`--intraday` before 17:00 ET; the full refresh
+at 17:07; `--full` first if `data/raw` is empty) → run the calls → `stage-auto` → `report hourly` (17:07:
+`run-all`) → `dashboard-data` → upload what changed. Stop it by asking Claude to delete the scheduled task
+"EFIE hourly refresh", or in the scheduled-tasks list of the Claude app.
 
 ## Standalone TradingView indicator
 

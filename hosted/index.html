@@ -1,0 +1,908 @@
+<style>
+.kx { font-family: var(--font-anthropic-sans); color: var(--color-fg); display: grid; gap: var(--cds-gap-xl); }
+.kx h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; }
+.kx h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0 0 var(--cds-gap-sm); }
+.kx h3 { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); margin: 0; }
+.kx-take { margin: var(--cds-gap-xs) 0 0; font-size: var(--cds-font-size-body); color: var(--color-fg-muted); max-width: 60rem; }
+.kx-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: var(--cds-gap-md); margin-top: var(--cds-gap-md); }
+.kx-tile, .kx-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); min-width: 0; }
+.kx-tile { padding: var(--cds-pad-md) var(--cds-pad-lg); display: grid; gap: var(--cds-gap-xs); align-content: start; }
+.kx-card { padding: var(--cds-pad-lg); }
+.kx-lab { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.kx-big { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; line-height: 1.15; }
+.kx-sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+.kx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: var(--cds-gap-md); }
+.kx-note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: var(--cds-gap-xs) 0 var(--cds-gap-md); }
+.kx-chart { position: relative; min-height: 200px; }
+.kx-chart svg { display: block; overflow: visible; }
+.kx-tick { font-size: var(--cds-font-size-caption); fill: var(--color-fg-muted); font-family: var(--font-anthropic-sans); }
+.kx-end { font-size: var(--cds-font-size-caption); font-family: var(--font-anthropic-sans); font-variant-numeric: tabular-nums; }
+.kx-tip { position: absolute; z-index: 2; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kx-tip-d { color: var(--cds-text-secondary); }
+.kx-sw { display: inline-block; width: .5rem; height: .5rem; border-radius: 2px; margin-right: var(--cds-gap-xs); }
+.kx-tw { overflow-x: auto; }
+.kx-scroll { max-height: 24rem; overflow: auto; }
+.kx-t { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+.kx-t th { text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); border-bottom: 1px solid var(--color-border-line); padding: var(--cds-pad-xs) var(--cds-pad-sm); white-space: nowrap; position: sticky; top: 0; background: var(--color-panel); }
+.kx-t td { border-bottom: 1px solid var(--color-border-line); padding: var(--cds-pad-xs) var(--cds-pad-sm); vertical-align: top; }
+.kx-t .n { text-align: right; white-space: nowrap; }
+.kx-t .w { min-width: 14rem; }
+.kx-warn { color: var(--color-warn); }
+.kx-bad { color: var(--color-bad); }
+.kx-ok { color: var(--color-ok); }
+.kx-theses { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--cds-gap-md); }
+.kx-th-head { display: flex; justify-content: space-between; gap: var(--cds-gap-sm); align-items: baseline; flex-wrap: wrap; }
+.kx-chip { font-size: var(--cds-font-size-caption); border: 1px solid var(--color-border-line); border-radius: 999px; padding: 0 var(--cds-pad-sm); color: var(--color-fg-muted); }
+.kx-dl { display: grid; grid-template-columns: max-content 1fr; gap: var(--cds-gap-xs) var(--cds-gap-md); margin: var(--cds-gap-sm) 0 0; font-size: var(--cds-font-size-caption); }
+.kx-dl dt { color: var(--color-fg-muted); }
+.kx-dl dd { margin: 0; }
+.kx-claim { font-size: var(--cds-font-size-body); margin: var(--cds-gap-sm) 0 0; }
+.kx-code { display: block; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--cds-font-size-caption); word-break: break-all; white-space: pre-wrap; background: var(--color-bg); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-sm); max-height: 7rem; overflow: auto; min-height: 3rem; }
+.kx-btn { font: inherit; font-size: var(--cds-font-size-caption); color: var(--color-fg); background: var(--color-bg); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-xs) var(--cds-pad-md); cursor: pointer; margin-top: var(--cds-gap-sm); }
+.kx-fail { display: flex; align-items: center; justify-content: center; gap: var(--cds-gap-sm); min-height: inherit; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.kx-fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
+.kx-empty { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); padding: var(--cds-pad-md) 0; }
+.kx-foot { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); border-top: 1px solid var(--color-border-line); padding-top: var(--cds-pad-md); }
+.kx [data-dash-source-state=empty] { color: transparent; }
+.kx [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+</style>
+
+<div class="kx">
+  <header id="summary">
+    <h1>KASPER EFIE Desk</h1>
+    <p class="kx-take" id="takeaway"><span class="kx-tk dash-skeleton" data-source="efie_status" data-field="models_validated" data-row="0">—</span> of <span class="kx-th dash-skeleton" data-source="efie_status" data-field="horizons" data-row="0">—</span> forecast horizons pass validation<span class="kx-tk-rest"></span></p>
+    <div class="kx-tiles">
+      <div class="kx-tile" id="tile-wti">
+        <span class="kx-lab">WTI front month (CL1!), latest</span>
+        <span class="kx-big dash-skeleton" id="wti-close" data-source="wti_last" data-field="close" data-row="0">—</span>
+        <span class="kx-sub">vs prior session <span class="dash-skeleton" id="wti-chg" data-source="wti_last" data-field="change" data-row="0">—</span> · session <span class="dash-skeleton" id="wti-sess" data-source="wti_last" data-field="session" data-row="0">—</span> (in progress)</span>
+      </div>
+      <div class="kx-tile" id="tile-spread">
+        <span class="kx-lab">M1–M2 spread, USD/bbl</span>
+        <span class="kx-big dash-skeleton" id="sp-last" data-source="spread12">—</span>
+        <span class="kx-sub">z over 240 hourly bars <span class="dash-skeleton" id="sp-z" data-source="efie_status" data-field="spread_z_240h" data-row="0">—</span> (engine)</span>
+      </div>
+      <div class="kx-tile" id="tile-crack">
+        <span class="kx-lab">3-2-1 crack, USD/bbl</span>
+        <span class="kx-big dash-skeleton" id="cr-last" data-source="cracks">—</span>
+        <span class="kx-sub">z over 250 sessions <span class="dash-skeleton" id="cr-z" data-source="efie_status" data-field="crack_z_250d" data-row="0">—</span> (engine)</span>
+      </div>
+      <div class="kx-tile" id="tile-curve">
+        <span class="kx-lab">Curve</span>
+        <span class="kx-big dash-skeleton" id="curve" data-source="efie_status" data-field="curve" data-row="0">—</span>
+        <span class="kx-sub">engine as of <span class="dash-skeleton" id="asof" data-source="efie_status" data-field="as_of_et" data-row="0">—</span></span>
+      </div>
+    </div>
+  </header>
+
+  <section id="forecasts">
+    <h2>Forecasts behind the validation gate</h2>
+    <div class="kx-card">
+      <h3>WTI direction, expected return and 80% range</h3>
+      <p class="kx-note">A horizon shows the EFIE model only when its walk-forward evidence passes the gate; otherwise it shows climatology (how often WTI rose over that horizon, and its usual range). Neither is a trade signal.</p>
+      <div class="kx-tw">
+        <table class="kx-t" id="fc-table" data-source="efie_forecasts" data-row-key="horizon">
+          <thead><tr>
+            <th data-field="horizon">Horizon</th>
+            <th class="n" data-field="p_up">P(up)</th>
+            <th data-field="p_up_source">From</th>
+            <th class="n" data-field="expected_return">Expected return</th>
+            <th class="n" data-field="range_low">Range low</th>
+            <th class="n" data-field="range_high">Range high</th>
+            <th data-field="direction_gate">Direction gate</th>
+            <th class="w" data-field="direction_reason">Why</th>
+            <th data-field="as_of_et">Decided (ET)</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="market">
+    <h2>Market structure, daily</h2>
+    <p class="kx-note">Last 130 sessions from your TradingView connection (delayed or real-time per your plan). The last point is the session in progress, not a settlement.</p>
+    <div class="kx-grid">
+      <div class="kx-card" id="card-wti">
+        <h3>WTI front month</h3>
+        <p class="kx-note">NYMEX CL1!, unadjusted continuous, USD/bbl.</p>
+        <div class="kx-chart dash-skeleton" id="ch-wti" data-source="cl1_d"></div>
+      </div>
+      <div class="kx-card" id="card-spread">
+        <h3>M1–M2 spread</h3>
+        <p class="kx-note">CL1 − CL2, USD/bbl. Above zero is backwardation.</p>
+        <div class="kx-chart dash-skeleton" id="ch-spread" data-source="spread12"></div>
+      </div>
+      <div class="kx-card" id="card-321">
+        <h3>3-2-1 crack</h3>
+        <p class="kx-note">(2 × RBOB + 1 × ULSD − 3 × WTI) / 3, product prices × 42, USD/bbl.</p>
+        <div class="kx-chart dash-skeleton" id="ch-321" data-source="cracks"></div>
+      </div>
+      <div class="kx-card" id="card-products">
+        <h3>Diesel and gasoline cracks</h3>
+        <p class="kx-note">ULSD × 42 − WTI and RBOB × 42 − WTI, USD/bbl.</p>
+        <div class="kx-chart dash-skeleton" id="ch-products" data-source="cracks"></div>
+      </div>
+      <div class="kx-card" id="card-brent">
+        <h3>Brent–WTI</h3>
+        <p class="kx-note">ICE Brent front month − WTI front month, same-day closes, USD/bbl. Needs ICE data on your TradingView plan.</p>
+        <div class="kx-chart dash-skeleton" id="ch-brent" data-source="brent_wti"></div>
+      </div>
+      <div class="kx-card" id="card-bwet">
+        <h3>Tanker freight proxy</h3>
+        <p class="kx-note">BWET, an ETF of crude-tanker freight futures, USD. The only live freight read in this feed.</p>
+        <div class="kx-chart dash-skeleton" id="ch-bwet" data-source="bwet_d"></div>
+      </div>
+      <div class="kx-card" id="card-td3c">
+        <h3>TD3C freight futures</h3>
+        <p class="kx-note">NYMEX TL1! (Middle East Gulf → China). Last print in this feed: <span class="dash-skeleton" id="td3c-last" data-source="tl1_d" data-field="session">—</span>; breaks in the line are gaps in the feed.</p>
+        <div class="kx-chart dash-skeleton" id="ch-td3c" data-source="tl1_d"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="inventories">
+    <h2>Inventories and releases</h2>
+    <div class="kx-grid">
+      <div class="kx-card" id="card-releases">
+        <h3>Latest weekly releases</h3>
+        <p class="kx-note">First-print weekly changes vs consensus. Surprise z is against the prior 52 releases; "vs 5-yr" is against the same week of the prior five years.</p>
+        <div class="kx-tw">
+          <table class="kx-t" id="rel-table" data-source="efie_releases" data-row-key="series">
+            <thead><tr>
+              <th data-field="series">Series</th>
+              <th data-field="released_et">Released (ET)</th>
+              <th data-field="period">Week</th>
+              <th class="n" data-field="actual">Change</th>
+              <th class="n" data-field="consensus">Consensus</th>
+              <th class="n" data-field="surprise">Surprise</th>
+              <th class="n" data-field="surprise_z">Surprise z</th>
+              <th class="n" data-field="vs_5yr_week">vs 5-yr</th>
+              <th data-field="unit">Unit</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="kx-card" id="card-surprises">
+        <h3>EIA crude surprises, last 26 reports</h3>
+        <p class="kx-note">Reported change minus consensus, million barrels. Below zero is a bigger draw (or smaller build) than expected.</p>
+        <div class="kx-chart dash-skeleton" id="ch-surprises" data-source="efie_surprises"></div>
+      </div>
+    </div>
+    <div class="kx-grid" style="margin-top: var(--cds-gap-md)">
+      <div class="kx-card" id="card-schedule">
+        <h3>Upcoming releases</h3>
+        <p class="kx-note">From the TradingView economic calendar. Entries at an unusual time are usually not yet adjusted for the daylight-saving change and are corrected nearer the date.</p>
+        <div class="kx-tw">
+          <table class="kx-t" id="sch-table" data-source="efie_schedule" data-row-key="when_et">
+            <thead><tr>
+              <th data-field="when_et">When (ET)</th>
+              <th data-field="release">Release</th>
+              <th class="n" data-field="crude_consensus">Crude consensus, M bbl</th>
+              <th data-field="note">Note</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="kx-card" id="card-pine">
+        <h3>Release schedule for the Pine indicator</h3>
+        <p class="kx-note">Paste into "Schedule from EFIE" (Release schedule group) of KASPER EFIE Research: <span class="dash-skeleton" id="pine-n" data-source="efie_pine_schedule" data-field="releases" data-row="0">—</span> EIA and API release times, including holiday shifts.</p>
+        <code class="kx-code dash-skeleton" id="pine-sched" data-source="efie_pine_schedule" data-field="schedule" data-row="0">—</code>
+        <button type="button" class="kx-btn" id="pine-copy">Copy schedule</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="notes">
+    <h2>What changed, and how it fits together</h2>
+    <div class="kx-card">
+      <div class="kx-tw">
+        <table class="kx-t" id="notes-table" data-source="efie_notes" data-row-key="n">
+          <thead><tr>
+            <th data-field="kind">About</th>
+            <th class="w" data-field="text">Note</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="theses">
+    <h2>Thesis board</h2>
+    <p class="kx-note">Each thesis is a hypothesis, not a validated signal. "Supported" means today's readings agree with it; the track record line is its pre-registered historical test.</p>
+    <div class="kx-theses" id="theses-grid" data-source="efie_theses"></div>
+  </section>
+
+  <section id="evidence">
+    <h2>Evidence</h2>
+    <div class="kx-grid">
+      <div class="kx-card" id="card-validation">
+        <h3>Walk-forward validation</h3>
+        <p class="kx-note">Out-of-sample Brier skill against climatology with a 95% block-bootstrap interval (above zero is better), and how often the 80% range held the outcome.</p>
+        <div class="kx-tw">
+          <table class="kx-t" id="val-table" data-source="efie_validation" data-row-key="horizon,model">
+            <thead><tr>
+              <th data-field="horizon">Horizon</th>
+              <th data-field="model">Model</th>
+              <th class="n" data-field="forecasts">Forecasts</th>
+              <th class="n" data-field="brier_skill">Brier skill</th>
+              <th class="n" data-field="brier_skill_low">95% low</th>
+              <th class="n" data-field="brier_skill_high">95% high</th>
+              <th class="n" data-field="coverage">80% range held</th>
+              <th data-field="validated">Direction gate</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="kx-card" id="card-overlays">
+        <h3>Overlays on reference MCL strategies, after costs</h3>
+        <p class="kx-note">Change in USD per session per MCL contract from adding each overlay, with a 95% block-bootstrap interval; p-values are Holm-corrected across all nine tests.</p>
+        <div class="kx-tw">
+          <table class="kx-t" id="ov-table" data-source="efie_overlays" data-row-key="test">
+            <thead><tr>
+              <th data-field="baseline">Baseline</th>
+              <th data-field="overlay">Overlay</th>
+              <th class="n" data-field="usd_per_session">USD / session</th>
+              <th class="n" data-field="usd_low">95% low</th>
+              <th class="n" data-field="usd_high">95% high</th>
+              <th class="n" data-field="sharpe_change">Sharpe change</th>
+              <th class="n" data-field="p_holm">p (Holm)</th>
+              <th data-field="significant">Significant</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="freshness">
+    <h2>Engine data freshness</h2>
+    <div class="kx-card">
+      <p class="kx-note">The newest bar or release each engine input had when the forecasts above were made (UTC).</p>
+      <div class="kx-tw">
+        <table class="kx-t" id="fr-table" data-source="efie_freshness" data-row-key="source">
+          <thead><tr>
+            <th data-field="source">Input</th>
+            <th data-field="last">Latest</th>
+            <th data-field="status">Status</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <p class="kx-foot">Research only · not a signal. This page reads data; it places no orders and changes nothing in the MCL Command Desk, its risk governor, HARD LOCK or execution rules.</p>
+</div>
+
+<script>
+// Shared helpers: formatting, states, tables and charts.
+(function () {
+  const loc = d3.formatLocale({ decimal: '.', thousands: ',', grouping: [3], currency: ['$', ''], minus: '-' });
+  const kx = (window.kx = {});
+  kx.f = (spec) => {
+    const f = loc.format(spec);
+    return (v) => (v === null || v === undefined || v === '' || Number.isNaN(Number(v)) ? '—' : f(Number(v)));
+  };
+  kx.day = (s) => new Date(String(s).slice(0, 10) + 'T00:00:00Z');
+  kx.dayLabel = d3.utcFormat('%a %b %-d, %Y');
+  kx.esc = (s) => encodeURIComponent(String(s));
+
+  kx.fail = (el) => {
+    el.classList.remove('dash-skeleton');
+    const d = document.createElement('div');
+    d.className = 'kx-fail';
+    d.textContent = 'Failed to load';
+    el.replaceChildren(d);
+  };
+  // Show a source's state on an element; returns true when the data is ready.
+  kx.ready = (el, ds) => {
+    if (ds.status === 'ok') {
+      el.classList.remove('dash-skeleton');
+      return true;
+    }
+    if (ds.status === 'error') kx.fail(el);
+    else {
+      el.classList.add('dash-skeleton');
+      if (el.tagName !== 'TABLE' && !el.classList.contains('kx-chart') && el.id !== 'theses-grid') el.textContent = '—';
+      if (el.classList.contains('kx-chart') || el.id === 'theses-grid') el.replaceChildren();
+    }
+    return false;
+  };
+
+  // Body rows for a table whose <th data-field> cells name the columns.
+  kx.table = (table, ds, cells, keyOf) => {
+    const body = table.tBodies[0];
+    const ncol = table.tHead.rows[0].cells.length;
+    const msg = (cls, text) => {
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.colSpan = ncol;
+      if (cls) td.className = cls;
+      if (text) td.textContent = text;
+      tr.appendChild(td);
+      body.replaceChildren(tr);
+      return td;
+    };
+    if (ds.status === 'error') return kx.fail(msg('', ''));
+    if (ds.status !== 'ok') {
+      msg('dash-skeleton', '');
+      return;
+    }
+    const rows = ds.data || [];
+    if (!rows.length) return msg('kx-empty', 'No rows yet.');
+    const heads = [...table.tHead.rows[0].cells];
+    body.replaceChildren(
+      ...rows.map((r) => {
+        const tr = document.createElement('tr');
+        tr.dataset.key = keyOf(r);
+        heads.forEach((th) => {
+          const f = th.dataset.field;
+          const td = document.createElement('td');
+          if (th.classList.contains('n')) td.className = 'n';
+          if (th.classList.contains('w')) td.className = 'w';
+          const c = cells[f];
+          const out = c ? c(r[f], r) : r[f];
+          if (out && typeof out === 'object') {
+            td.textContent = out.text;
+            if (out.cls) td.classList.add(out.cls);
+          } else td.textContent = out === null || out === undefined || out === '' ? '—' : String(out);
+          tr.appendChild(td);
+        });
+        return tr;
+      })
+    );
+  };
+
+  const measure = (svg, cls, texts) => {
+    const g = svg.append('g').attr('visibility', 'hidden');
+    const w = d3.max(texts, (t) => g.append('text').attr('class', cls).text(t).node().getComputedTextLength()) || 0;
+    g.remove();
+    return Math.ceil(w);
+  };
+
+  const tipAt = (box, tip, W, px, py) => {
+    const s = box.clientWidth / W;
+    tip.hidden = false;
+    const tw = tip.offsetWidth;
+    tip.style.left = Math.max(0, Math.min(box.clientWidth - tw, px * s + 12)) + 'px';
+    tip.style.top = Math.max(0, py * s - tip.offsetHeight - 8) + 'px';
+  };
+
+  const tipLines = (tip, head, lines) => {
+    const h = document.createElement('div');
+    h.className = 'kx-tip-d';
+    h.textContent = head;
+    tip.replaceChildren(h);
+    lines.forEach(({ color, text }) => {
+      const d = document.createElement('div');
+      if (color) {
+        const sw = document.createElement('span');
+        sw.className = 'kx-sw';
+        sw.style.background = color;
+        d.appendChild(sw);
+      }
+      d.appendChild(document.createTextNode(text));
+      tip.appendChild(d);
+    });
+  };
+
+  // Line chart over rows with a `session` day; series: [{key, name, color}].
+  kx.line = (box, rows, o) => {
+    box.classList.remove('dash-skeleton');
+    box.replaceChildren();
+    const pts = rows
+      .map((r) => ({ d: kx.day(r.session), r }))
+      .filter((p) => o.series.some((s) => Number.isFinite(Number(p.r[s.key]))));
+    if (!pts.length) {
+      const e = document.createElement('div');
+      e.className = 'kx-empty';
+      e.textContent = 'No sessions in this window.';
+      box.appendChild(e);
+      return;
+    }
+    const W = Math.max(260, Math.round(box.clientWidth));
+    const H = 200;
+    const top = 10;
+    const bottom = 24;
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+    const vals = pts.flatMap((p) => o.series.map((s) => Number(p.r[s.key]))).filter(Number.isFinite);
+    if (o.zero) vals.push(0);
+    const y = d3.scaleLinear(d3.extent(vals), [H - bottom, top]).nice(4);
+    const yt = y.ticks(4);
+    const tf = o.tick || o.fmt;
+    const left = measure(svg, 'kx-tick', yt.map(tf)) + 8;
+    const last = pts[pts.length - 1];
+    const ends = o.series
+      .filter((s) => Number.isFinite(Number(last.r[s.key])))
+      .map((s) => ({ s, v: Number(last.r[s.key]), text: (o.series.length > 1 ? s.name + ' ' : '') + o.fmt(last.r[s.key]) }));
+    const right = measure(svg, 'kx-end', ends.map((e) => e.text)) + 10;
+    const x = d3.scaleUtc(d3.extent(pts, (p) => p.d), [left, W - right]);
+    const g = svg.append('g');
+    g.selectAll('line.g').data(yt).join('line').attr('x1', left).attr('x2', W - right).attr('y1', y).attr('y2', y).attr('stroke', 'var(--cds-chart-grid)');
+    if (o.zero && y.domain()[0] < 0 && y.domain()[1] > 0) {
+      g.append('line').attr('x1', left).attr('x2', W - right).attr('y1', y(0)).attr('y2', y(0)).attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 3');
+    }
+    g.selectAll('text.y').data(yt).join('text').attr('class', 'kx-tick').attr('x', left - 6).attr('y', y).attr('dy', '0.32em').attr('text-anchor', 'end').text(tf);
+    const spanDays = (x.domain()[1] - x.domain()[0]) / 864e5;
+    const xf = d3.utcFormat(spanDays > 270 ? '%b %Y' : '%b %-d');
+    const sample = measure(svg, 'kx-tick', [xf(x.domain()[0]), xf(x.domain()[1])]);
+    const nx = Math.max(2, Math.min(6, Math.floor((W - left - right) / (sample + 28))));
+    const xt = [];
+    x.ticks(nx).forEach((t) => {
+      const px = x(t);
+      if (px - sample / 2 < 0 || px + sample / 2 > W) return;
+      if (xt.length && px - x(xt[xt.length - 1]) < sample + 10) return;
+      xt.push(t);
+    });
+    g.selectAll('text.x').data(xt).join('text').attr('class', 'kx-tick').attr('x', x).attr('y', H - 6).attr('text-anchor', 'middle').text(xf);
+    g.append('line').attr('x1', left).attr('x2', W - right).attr('y1', H - bottom).attr('y2', H - bottom).attr('stroke', 'var(--cds-chart-axis)');
+    const gap = o.gapDays || 6;
+    o.series.forEach((s) => {
+      const seq = [];
+      pts.forEach((p, i) => {
+        if (i && (p.d - pts[i - 1].d) / 864e5 > gap) seq.push(null);
+        seq.push(p);
+      });
+      const line = d3
+        .line()
+        .defined((p) => p !== null && Number.isFinite(Number(p.r[s.key])))
+        .x((p) => x(p.d))
+        .y((p) => y(Number(p.r[s.key])));
+      g.append('path').attr('d', line(seq)).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
+    });
+    // End labels, kept apart.
+    const placed = ends.map((e) => ({ ...e, y: y(e.v) })).sort((a, b) => a.y - b.y);
+    placed.forEach((e, i) => (e.y = Math.max(top, i ? Math.max(e.y, placed[i - 1].y + 14) : e.y)));
+    const over = placed.length ? placed[placed.length - 1].y - (H - bottom) : 0;
+    if (over > 0) placed.forEach((e) => (e.y -= over));
+    placed.forEach((e) => {
+      g.append('text').attr('class', 'kx-end').attr('x', x(last.d) + 6).attr('y', e.y).attr('dy', '0.32em').attr('fill', e.s.color).text(e.text);
+    });
+    const tip = document.createElement('div');
+    tip.className = 'kx-tip';
+    tip.hidden = true;
+    box.appendChild(tip);
+    const dots = o.series.map((s) => g.append('circle').attr('r', 4).attr('fill', s.color).attr('visibility', 'hidden'));
+    const rule = g.append('line').attr('y1', top).attr('y2', H - bottom).attr('stroke', 'var(--cds-chart-axis)').attr('visibility', 'hidden');
+    svg
+      .append('rect')
+      .attr('x', left)
+      .attr('y', 0)
+      .attr('width', Math.max(0, W - left - right))
+      .attr('height', H)
+      .attr('fill', 'transparent')
+      .on('pointermove', (ev) => {
+        const [mx] = d3.pointer(ev);
+        const p = d3.least(pts, (q) => Math.abs(x(q.d) - mx));
+        rule.attr('x1', x(p.d)).attr('x2', x(p.d)).attr('visibility', o.series.length > 1 ? 'visible' : 'hidden');
+        let py = H;
+        o.series.forEach((s, i) => {
+          const v = Number(p.r[s.key]);
+          if (Number.isFinite(v)) {
+            dots[i].attr('cx', x(p.d)).attr('cy', y(v)).attr('visibility', 'visible');
+            py = Math.min(py, y(v));
+          } else dots[i].attr('visibility', 'hidden');
+        });
+        const head = kx.dayLabel(p.d) + (p === last && o.liveLast ? ' · in progress' : '');
+        tipLines(
+          tip,
+          head,
+          o.series.map((s) => ({ color: o.series.length > 1 ? s.color : null, text: s.name + ': ' + o.fmt(p.r[s.key]) }))
+        );
+        tipAt(box, tip, W, x(p.d), py);
+      })
+      .on('pointerleave', () => {
+        tip.hidden = true;
+        rule.attr('visibility', 'hidden');
+        dots.forEach((d) => d.attr('visibility', 'hidden'));
+      });
+  };
+
+  // Bars from zero, one per row, in row order.
+  kx.bars = (box, rows, o) => {
+    box.classList.remove('dash-skeleton');
+    box.replaceChildren();
+    const pts = rows.filter((r) => Number.isFinite(Number(r[o.value])));
+    if (!pts.length) {
+      const e = document.createElement('div');
+      e.className = 'kx-empty';
+      e.textContent = 'No reports in this window.';
+      box.appendChild(e);
+      return;
+    }
+    const W = Math.max(260, Math.round(box.clientWidth));
+    const H = 200;
+    const top = 10;
+    const bottom = 24;
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+    const vals = pts.map((r) => Number(r[o.value])).concat([0]);
+    const y = d3.scaleLinear(d3.extent(vals), [H - bottom, top]).nice(4);
+    const yt = y.ticks(4);
+    const left = measure(svg, 'kx-tick', yt.map(o.tick)) + 8;
+    const x = d3.scaleBand(pts.map((r) => r[o.key]), [left, W - 4]).padding(0.25);
+    const g = svg.append('g');
+    g.selectAll('line.g').data(yt).join('line').attr('x1', left).attr('x2', W - 4).attr('y1', y).attr('y2', y).attr('stroke', 'var(--cds-chart-grid)');
+    g.selectAll('text.y').data(yt).join('text').attr('class', 'kx-tick').attr('x', left - 6).attr('y', y).attr('dy', '0.32em').attr('text-anchor', 'end').text(o.tick);
+    const bars = g
+      .selectAll('rect.b')
+      .data(pts)
+      .join('rect')
+      .attr('x', (r) => x(r[o.key]))
+      .attr('width', Math.min(32, x.bandwidth()))
+      .attr('y', (r) => Math.min(y(0), y(Number(r[o.value]))))
+      .attr('height', (r) => Math.max(1, Math.abs(y(Number(r[o.value])) - y(0))))
+      .attr('rx', 4)
+      .attr('fill', o.color);
+    g.append('line').attr('x1', left).attr('x2', W - 4).attr('y1', y(0)).attr('y2', y(0)).attr('stroke', 'var(--cds-chart-axis)');
+    const lab = measure(svg, 'kx-tick', pts.map((r) => o.xLabel(r)));
+    const every = Math.max(1, Math.ceil((lab + 12) / x.step()));
+    g.selectAll('text.x')
+      .data(pts.filter((r, i) => (pts.length - 1 - i) % every === 0))
+      .join('text')
+      .attr('class', 'kx-tick')
+      .attr('x', (r) => Math.min(W - lab / 2, Math.max(lab / 2, x(r[o.key]) + Math.min(32, x.bandwidth()) / 2)))
+      .attr('y', H - 6)
+      .attr('text-anchor', 'middle')
+      .text(o.xLabel);
+    const tip = document.createElement('div');
+    tip.className = 'kx-tip';
+    tip.hidden = true;
+    box.appendChild(tip);
+    bars
+      .on('pointerenter', (ev, r) => {
+        bars.attr('opacity', (q) => (q === r ? 1 : 0.45));
+        tipLines(tip, o.head(r), [{ text: o.name + ': ' + o.fmt(r[o.value]) }]);
+        tipAt(box, tip, W, x(r[o.key]), Math.min(y(0), y(Number(r[o.value]))));
+      })
+      .on('pointerleave', () => {
+        bars.attr('opacity', 1);
+        tip.hidden = true;
+      });
+  };
+})();
+</script>
+
+<script>
+// TradingView answers ({bars: {t, o, h, l, c, v}, ...}) as one row per daily bar.
+const ohlcvRows = ({ answer }) => {
+  let a = answer;
+  if (Array.isArray(a) && a.length && a[0] && typeof a[0].text === 'string') a = a[0].text;
+  if (typeof a === 'string') a = JSON.parse(a);
+  if (!a || a.success === false || !a.bars || !Array.isArray(a.bars.t)) {
+    throw new Error((a && (a.error || a.message)) || 'TradingView returned no bars for this symbol');
+  }
+  const b = a.bars;
+  const data = b.t.map((t, i) => ({
+    session: new Date((t + 4 * 3600) * 1000).toISOString().slice(0, 10),
+    open: b.o[i],
+    high: b.h[i],
+    low: b.l[i],
+    close: b.c[i],
+    volume: b.v[i],
+    bar_open_utc: new Date(t * 1000).toISOString().slice(0, 16).replace('T', ' '),
+  }));
+  return {
+    data,
+    columns: ['session', 'open', 'high', 'low', 'close', 'volume', 'bar_open_utc'],
+    meta: [
+      { label: 'Symbol', value: String(a.symbol || '') },
+      { label: 'Interval', value: String(a.interval || '') },
+      { label: 'TradingView notice', value: String(a.notice || '') },
+    ],
+  };
+};
+const ohlcvHow = 'TradingView daily bars as rows. "session" is the trading day: futures bars open at 18:00 ET the evening before.';
+dash.loader('cl1_d', { description: ohlcvHow, fn: ohlcvRows });
+dash.loader('cl2_d', { description: ohlcvHow, fn: ohlcvRows });
+dash.loader('rb1_d', { description: ohlcvHow, fn: ohlcvRows });
+dash.loader('ho1_d', { description: ohlcvHow, fn: ohlcvRows });
+dash.loader('brn1_d', { description: ohlcvHow, fn: ohlcvRows });
+dash.loader('bwet_d', { description: ohlcvHow, fn: ohlcvRows });
+dash.loader('tl1_d', { description: ohlcvHow, fn: ohlcvRows });
+
+dash.calc('wti_last', {
+  inputs: ['cl1_d'],
+  title: 'WTI latest vs prior session',
+  description: 'Latest CL1 close and its change from the session before, USD/bbl.',
+  fn: (cl1_d) => {
+    const n = cl1_d.length;
+    if (n < 2) return [];
+    const a = cl1_d[n - 2];
+    const b = cl1_d[n - 1];
+    return [{ session: b.session, close: b.close, change: Math.round((b.close - a.close) * 100) / 100 }];
+  },
+});
+
+dash.calc('spread12', {
+  inputs: ['cl1_d', 'cl2_d'],
+  title: 'WTI M1–M2 spread',
+  description: 'CL1 close minus CL2 close for each session both have, USD/bbl.',
+  fn: (cl1_d, cl2_d) => {
+    const m2 = new Map(cl2_d.map((r) => [r.session, r.close]));
+    return cl1_d
+      .filter((r) => m2.has(r.session))
+      .map((r) => ({ session: r.session, spread: Math.round((r.close - m2.get(r.session)) * 100) / 100 }));
+  },
+});
+
+dash.calc('cracks', {
+  inputs: ['cl1_d', 'rb1_d', 'ho1_d'],
+  title: 'Crack spreads',
+  description: '3-2-1, diesel and gasoline cracks from same-session closes; RBOB and ULSD (USD/gal) × 42, USD/bbl.',
+  fn: (cl1_d, rb1_d, ho1_d) => {
+    const rb = new Map(rb1_d.map((r) => [r.session, r.close * 42]));
+    const ho = new Map(ho1_d.map((r) => [r.session, r.close * 42]));
+    const r2 = (v) => Math.round(v * 100) / 100;
+    return cl1_d
+      .filter((r) => rb.has(r.session) && ho.has(r.session))
+      .map((r) => ({
+        session: r.session,
+        crack321: r2((2 * rb.get(r.session) + ho.get(r.session) - 3 * r.close) / 3),
+        diesel: r2(ho.get(r.session) - r.close),
+        gasoline: r2(rb.get(r.session) - r.close),
+      }));
+  },
+});
+
+dash.calc('brent_wti', {
+  inputs: ['brn1_d', 'cl1_d'],
+  title: 'Brent–WTI spread',
+  description: 'ICE Brent front-month close minus WTI front-month close on the same day, USD/bbl.',
+  fn: (brn1_d, cl1_d) => {
+    const w = new Map(cl1_d.map((r) => [r.session, r.close]));
+    return brn1_d
+      .filter((r) => w.has(r.session))
+      .map((r) => ({ session: r.session, spread: Math.round((r.close - w.get(r.session)) * 100) / 100 }));
+  },
+});
+</script>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const f2s = kx.f('+.2f');
+  const f2 = kx.f('.2f');
+  const f3s = kx.f('+.3~f');
+  const pct = kx.f('.1%');
+  const pct3 = kx.f('+.3%');
+  const f4s = kx.f('+.4f');
+  const f3 = kx.f('.3f');
+  const comma = kx.f(',');
+  const usd = kx.f('.2f');
+
+  const setText = (el, ds, text) => {
+    if (!kx.ready(el, ds)) return false;
+    el.textContent = text;
+    return true;
+  };
+  // Point a one-cell mark at the last row of a source.
+  const lastRow = (el, ds, field, fmt) => {
+    if (!kx.ready(el, ds)) return;
+    const rows = ds.data || [];
+    if (!rows.length) {
+      el.textContent = '—';
+      return;
+    }
+    const r = rows[rows.length - 1];
+    el.dataset.field = field;
+    el.dataset.where = 'session=' + kx.esc(r.session);
+    el.textContent = fmt(r[field]);
+  };
+
+  const copy = $('pine-copy');
+  copy.addEventListener('click', () => {
+    const code = $('pine-sched');
+    const text = code.textContent;
+    const select = () => {
+      const range = document.createRange();
+      range.selectNodeContents(code);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      copy.textContent = 'Selected: press Ctrl+C or ⌘C';
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => (copy.textContent = 'Copied'), select);
+    } else select();
+  });
+
+  const verdict = (v) => ({ text: v === 'VALIDATED' ? 'Validated' : 'Not validated', cls: v === 'VALIDATED' ? 'kx-ok' : 'kx-warn' });
+  const src = (v) => (v === 'climatology' ? 'Climatology' : v === 'model' ? 'EFIE model' : v);
+  const rigs = (r) => r.unit === 'rigs';
+
+  dash.onData(() => {
+    const colors = dash.colors;
+
+    // Header
+    const st = dash.data('efie_status');
+    const s0 = st.status === 'ok' && st.data && st.data[0] ? st.data[0] : null;
+    setText(document.querySelector('.kx-tk'), st, s0 ? String(s0.models_validated) : '—');
+    setText(document.querySelector('.kx-th'), st, s0 ? String(s0.horizons) : '—');
+    document.querySelector('.kx-tk-rest').textContent = !s0
+      ? '.'
+      : s0.models_validated === 0
+        ? ', so every probability and range below is the climatology baseline: research context, not a trade signal.'
+        : '; only those show model output, and it is still research, not a trade signal.';
+    setText($('sp-z'), st, s0 ? f2s(s0.spread_z_240h) : '—');
+    setText($('cr-z'), st, s0 ? f2s(s0.crack_z_250d) : '—');
+    setText($('curve'), st, s0 ? s0.curve : '—');
+    setText($('asof'), st, s0 ? s0.as_of_et : '—');
+
+    const wl = dash.data('wti_last');
+    const w0 = wl.status === 'ok' && wl.data && wl.data[0] ? wl.data[0] : null;
+    setText($('wti-close'), wl, w0 ? usd(w0.close) : '—');
+    setText($('wti-chg'), wl, w0 ? f2s(w0.change) : '—');
+    setText($('wti-sess'), wl, w0 ? w0.session : '—');
+
+    const sp = dash.data('spread12');
+    const cr = dash.data('cracks');
+    lastRow($('sp-last'), sp, 'spread', f2s);
+    lastRow($('cr-last'), cr, 'crack321', f2);
+
+    // Forecasts
+    kx.table($('fc-table'), dash.data('efie_forecasts'), {
+      p_up: (v) => pct(v),
+      p_up_source: (v) => src(v),
+      expected_return: (v) => pct3(v),
+      range_low: (v) => usd(v),
+      range_high: (v) => usd(v),
+      direction_gate: (v) => verdict(v),
+    }, (r) => r.horizon);
+
+    // Market charts
+    const cl1 = dash.data('cl1_d');
+    if (kx.ready($('ch-wti'), cl1)) kx.line($('ch-wti'), cl1.data, { series: [{ key: 'close', name: 'CL1', color: colors[0] }], fmt: usd, liveLast: true });
+    if (kx.ready($('ch-spread'), sp)) kx.line($('ch-spread'), sp.data, { series: [{ key: 'spread', name: 'M1–M2', color: colors[0] }], fmt: f2s, tick: f2, zero: true, liveLast: true });
+    if (kx.ready($('ch-321'), cr)) kx.line($('ch-321'), cr.data, { series: [{ key: 'crack321', name: '3-2-1', color: colors[0] }], fmt: usd, liveLast: true });
+    if (kx.ready($('ch-products'), cr))
+      kx.line($('ch-products'), cr.data, {
+        series: [
+          { key: 'diesel', name: 'Diesel', color: colors[0] },
+          { key: 'gasoline', name: 'Gasoline', color: colors[1] },
+        ],
+        fmt: usd,
+        liveLast: true,
+      });
+    const bw = dash.data('brent_wti');
+    if (kx.ready($('ch-brent'), bw)) kx.line($('ch-brent'), bw.data, { series: [{ key: 'spread', name: 'Brent–WTI', color: colors[0] }], fmt: f2s, tick: f2, zero: true, liveLast: true });
+    const bwet = dash.data('bwet_d');
+    if (kx.ready($('ch-bwet'), bwet)) kx.line($('ch-bwet'), bwet.data, { series: [{ key: 'close', name: 'BWET', color: colors[0] }], fmt: usd, liveLast: true });
+    const tl1 = dash.data('tl1_d');
+    if (kx.ready($('ch-td3c'), tl1)) kx.line($('ch-td3c'), tl1.data, { series: [{ key: 'close', name: 'TL1', color: colors[0] }], fmt: usd, gapDays: 10 });
+    const tdl = $('td3c-last');
+    if (kx.ready(tdl, tl1)) {
+      const rows = tl1.data || [];
+      if (rows.length) {
+        tdl.dataset.row = String(rows.length - 1);
+        tdl.textContent = kx.dayLabel(kx.day(rows[rows.length - 1].session));
+      } else tdl.textContent = '—';
+    }
+
+    // Inventories
+    kx.table($('rel-table'), dash.data('efie_releases'), {
+      actual: (v, r) => (rigs(r) ? comma(v) : f3s(v)),
+      consensus: (v) => f3s(v),
+      surprise: (v) => f3s(v),
+      surprise_z: (v) => f2s(v),
+      vs_5yr_week: (v) => f3s(v),
+    }, (r) => r.series);
+    const su = dash.data('efie_surprises');
+    if (kx.ready($('ch-surprises'), su))
+      kx.bars($('ch-surprises'), su.data, {
+        key: 'week',
+        value: 'surprise',
+        color: colors[0],
+        name: 'Surprise',
+        fmt: (v) => f3s(v) + ' M bbl',
+        tick: kx.f('+.0f'),
+        xLabel: (r) => d3.utcFormat('%b %-d')(kx.day(r.released)),
+        head: (r) => 'Week to ' + r.week + ' · released ' + kx.dayLabel(kx.day(r.released)),
+      });
+    kx.table($('sch-table'), dash.data('efie_schedule'), {
+      crude_consensus: (v) => f3s(v),
+      note: (v) => (v ? { text: v, cls: 'kx-warn' } : ''),
+    }, (r) => r.when_et);
+    const ps = dash.data('efie_pine_schedule');
+    const p0 = ps.status === 'ok' && ps.data && ps.data[0] ? ps.data[0] : null;
+    setText($('pine-sched'), ps, p0 ? p0.schedule : '—');
+    setText($('pine-n'), ps, p0 ? String(p0.releases) : '—');
+    copy.disabled = !p0;
+
+    // Notes
+    kx.table($('notes-table'), dash.data('efie_notes'), {}, (r) => String(r.n));
+
+    // Theses
+    const th = dash.data('efie_theses');
+    const grid = $('theses-grid');
+    if (kx.ready(grid, th)) {
+      const rows = th.data || [];
+      if (!rows.length) {
+        const e = document.createElement('div');
+        e.className = 'kx-empty';
+        e.textContent = 'No theses yet.';
+        grid.replaceChildren(e);
+      } else {
+        grid.replaceChildren(
+          ...rows.map((t) => {
+            const where = 'id=' + kx.esc(t.id);
+            const el = (tag, cls, field, text) => {
+              const n = document.createElement(tag);
+              if (cls) n.className = cls;
+              n.dataset.source = 'efie_theses';
+              n.dataset.field = field;
+              n.dataset.where = where;
+              n.textContent = text === null || text === undefined || text === '' ? '—' : String(text);
+              return n;
+            };
+            const card = document.createElement('div');
+            card.className = 'kx-card';
+            card.id = 'thesis-' + t.id;
+            const head = document.createElement('div');
+            head.className = 'kx-th-head';
+            const h = document.createElement('h3');
+            h.append(el('span', '', 'id', t.id), document.createTextNode(' · '), el('span', '', 'thesis', t.thesis));
+            const chip = el('span', 'kx-chip', 'status', t.status);
+            head.append(h, chip);
+            const claim = el('p', 'kx-claim', 'claim', t.claim);
+            const label = el('p', 'kx-note', 'label', t.label);
+            const dl = document.createElement('dl');
+            dl.className = 'kx-dl';
+            [
+              ['Implies', 'implies'],
+              ['Strengthening it', 'strengthens'],
+              ['Against it', 'invalidates'],
+              ['Not available', 'missing'],
+              ['Track record', 'history'],
+            ].forEach(([name, field]) => {
+              const dt = document.createElement('dt');
+              dt.textContent = name;
+              dl.append(dt, el('dd', '', field, t[field]));
+            });
+            card.append(head, claim, label, dl);
+            return card;
+          })
+        );
+      }
+    }
+
+    // Evidence
+    kx.table($('val-table'), dash.data('efie_validation'), {
+      forecasts: (v) => comma(v),
+      brier_skill: (v) => f4s(v),
+      brier_skill_low: (v) => f4s(v),
+      brier_skill_high: (v) => f4s(v),
+      coverage: (v) => pct(v),
+      validated: (v) => ({ text: v ? 'Validated' : 'Not validated', cls: v ? 'kx-ok' : 'kx-warn' }),
+    }, (r) => kx.esc(r.horizon) + ',' + kx.esc(r.model));
+    kx.table($('ov-table'), dash.data('efie_overlays'), {
+      usd_per_session: (v) => f2s(v),
+      usd_low: (v) => f2s(v),
+      usd_high: (v) => f2s(v),
+      sharpe_change: (v) => f2s(v),
+      p_holm: (v) => f3(v),
+      significant: (v) => (v ? 'Yes' : 'No'),
+    }, (r) => r.test);
+
+    kx.table($('fr-table'), dash.data('efie_freshness'), {
+      status: (v) => (v === 'OK' ? 'OK' : { text: v, cls: 'kx-warn' }),
+    }, (r) => r.source);
+  });
+
+  const named = document.getElementById(location.hash.slice(1));
+  if (named) named.scrollIntoView();
+  const secs = [...document.querySelectorAll('.kx > section, .kx > header')];
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && dash.setLink(e.target.id)),
+      { root: document, rootMargin: '-45% 0px -50% 0px' }
+    );
+    secs.forEach((s) => io.observe(s));
+  }
+})();
+</script>
