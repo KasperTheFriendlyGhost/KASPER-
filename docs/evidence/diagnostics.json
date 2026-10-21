@@ -1,83 +1,83 @@
 {
-  "snapshot": "2026-10-21 06:00:00+00:00",
-  "manifest_files": 116,
+  "snapshot": "2026-10-21 21:00:00+00:00",
+  "manifest_files": 199,
   "coverage": [
     {
       "series": "CL1",
       "interval": "1h",
-      "rows": 10655,
+      "rows": 10670,
       "first": "2025-01-01 23:00:00+00:00",
-      "last": "2026-10-21 05:00:00+00:00"
+      "last": "2026-10-21 20:00:00+00:00"
     },
     {
       "series": "CL2",
       "interval": "1h",
-      "rows": 10656,
+      "rows": 10671,
       "first": "2025-01-01 23:00:00+00:00",
-      "last": "2026-10-21 05:00:00+00:00"
+      "last": "2026-10-21 20:00:00+00:00"
     },
     {
       "series": "MCL1",
       "interval": "1h",
-      "rows": 10651,
+      "rows": 10666,
       "first": "2025-01-01 23:00:00+00:00",
-      "last": "2026-10-21 05:00:00+00:00"
+      "last": "2026-10-21 20:00:00+00:00"
     },
     {
       "series": "RB1",
       "interval": "1h",
-      "rows": 10627,
+      "rows": 10642,
       "first": "2025-01-01 23:00:00+00:00",
-      "last": "2026-10-21 05:00:00+00:00"
+      "last": "2026-10-21 20:00:00+00:00"
     },
     {
       "series": "HO1",
       "interval": "1h",
-      "rows": 10656,
+      "rows": 10671,
       "first": "2025-01-01 23:00:00+00:00",
-      "last": "2026-10-21 05:00:00+00:00"
+      "last": "2026-10-21 20:00:00+00:00"
     },
     {
       "series": "BWET",
       "interval": "1h",
-      "rows": 3358,
+      "rows": 3365,
       "first": "2023-05-03 13:30:00+00:00",
-      "last": "2026-10-20 19:30:00+00:00"
+      "last": "2026-10-21 19:30:00+00:00"
     },
     {
       "series": "CL1",
       "interval": "1D",
-      "rows": 4229,
+      "rows": 4230,
       "first": "2010-01-04",
-      "last": "2026-10-20"
+      "last": "2026-10-21"
     },
     {
       "series": "CL2",
       "interval": "1D",
-      "rows": 4229,
+      "rows": 4230,
       "first": "2010-01-04",
-      "last": "2026-10-20"
+      "last": "2026-10-21"
     },
     {
       "series": "RB1",
       "interval": "1D",
-      "rows": 4229,
+      "rows": 4230,
       "first": "2010-01-04",
-      "last": "2026-10-20"
+      "last": "2026-10-21"
     },
     {
       "series": "HO1",
       "interval": "1D",
-      "rows": 4229,
+      "rows": 4230,
       "first": "2010-01-04",
-      "last": "2026-10-20"
+      "last": "2026-10-21"
     },
     {
       "series": "BRN1",
       "interval": "1D",
-      "rows": 4337,
+      "rows": 4338,
       "first": "2010-01-04",
-      "last": "2026-10-20"
+      "last": "2026-10-21"
     },
     {
       "series": "TL1",
@@ -113,74 +113,74 @@
     {
       "series": "eia_crude",
       "interval": "release",
-      "rows": 615,
-      "with_consensus": 609,
+      "rows": 616,
+      "with_consensus": 610,
       "first": "2015-01-07 15:30:00+00:00",
-      "last": "2026-10-15 16:00:00+00:00"
+      "last": "2026-10-21 14:30:00+00:00"
     },
     {
       "series": "eia_cushing",
       "interval": "release",
-      "rows": 352,
+      "rows": 353,
       "with_consensus": 3,
       "first": "2020-01-23 16:00:00+00:00",
-      "last": "2026-10-15 16:00:00+00:00"
+      "last": "2026-10-21 14:30:00+00:00"
     },
     {
       "series": "eia_distillate",
       "interval": "release",
-      "rows": 354,
-      "with_consensus": 346,
+      "rows": 355,
+      "with_consensus": 347,
       "first": "2020-01-08 15:30:00+00:00",
-      "last": "2026-10-15 16:00:00+00:00"
+      "last": "2026-10-21 14:30:00+00:00"
     },
     {
       "series": "eia_distillate_prod",
       "interval": "release",
-      "rows": 352,
+      "rows": 353,
       "with_consensus": 0,
       "first": "2020-01-23 16:00:00+00:00",
-      "last": "2026-10-15 16:00:00+00:00"
+      "last": "2026-10-21 14:30:00+00:00"
     },
     {
       "series": "eia_gasoline",
       "interval": "release",
-      "rows": 615,
-      "with_consensus": 602,
+      "rows": 616,
+      "with_consensus": 603,
       "first": "2015-01-07 15:30:00+00:00",
-      "last": "2026-10-15 16:00:00+00:00"
+      "last": "2026-10-21 14:30:00+00:00"
     },
     {
       "series": "eia_gasoline_prod",
       "interval": "release",
-      "rows": 354,
+      "rows": 355,
       "with_consensus": 0,
       "first": "2020-01-08 15:30:00+00:00",
-      "last": "2026-10-15 16:00:00+00:00"
+      "last": "2026-10-21 14:30:00+00:00"
     },
     {
       "series": "eia_heating_oil",
       "interval": "release",
-      "rows": 302,
+      "rows": 303,
       "with_consensus": 0,
       "first": "2021-01-06 15:30:00+00:00",
-      "last": "2026-10-15 16:00:00+00:00"
+      "last": "2026-10-21 14:30:00+00:00"
     },
     {
       "series": "eia_imports",
       "interval": "release",
-      "rows": 354,
+      "rows": 355,
       "with_consensus": 0,
       "first": "2020-01-08 15:30:00+00:00",
-      "last": "2026-10-15 16:00:00+00:00"
+      "last": "2026-10-21 14:30:00+00:00"
     },
     {
       "series": "eia_runs",
       "interval": "release",
-      "rows": 352,
+      "rows": 353,
       "with_consensus": 0,
       "first": "2020-01-23 16:00:00+00:00",
-      "last": "2026-10-15 16:00:00+00:00"
+      "last": "2026-10-21 14:30:00+00:00"
     }
   ],
   "eia_weeks": {
@@ -196,9 +196,9 @@
     ]
   },
   "release_alignment_hourly": {
-    "n_releases": 94,
+    "n_releases": 95,
     "release_times_et": {
-      "Wed 10:30": 81,
+      "Wed 10:30": 82,
       "Thu 12:00": 11,
       "Thu 11:00": 1,
       "Mon 17:00": 1
@@ -206,38 +206,38 @@
     "profile": [
       {
         "offset_bars": -3,
-        "abs_ret": 0.002228403631490572,
-        "rel_volume": 0.967683318678208
+        "abs_ret": 0.0022325835000680527,
+        "rel_volume": 0.9680125486550862
       },
       {
         "offset_bars": -2,
-        "abs_ret": 0.003239358519153246,
-        "rel_volume": 1.6063701396817622
+        "abs_ret": 0.0032450001433268483,
+        "rel_volume": 1.5900039938380783
       },
       {
         "offset_bars": -1,
-        "abs_ret": 0.004248625647987669,
-        "rel_volume": 2.5749322052466033
+        "abs_ret": 0.004236217467851411,
+        "rel_volume": 2.574856772240839
       },
       {
         "offset_bars": 0,
-        "abs_ret": 0.0037253727903410194,
-        "rel_volume": 2.627619160531741
+        "abs_ret": 0.0037368253813347962,
+        "rel_volume": 2.6197087130568093
       },
       {
         "offset_bars": 1,
-        "abs_ret": 0.004685827234516715,
-        "rel_volume": 2.592044513611382
+        "abs_ret": 0.004705891037413146,
+        "rel_volume": 2.5669212126754766
       },
       {
         "offset_bars": 2,
-        "abs_ret": 0.0028021301805538634,
-        "rel_volume": 1.8014569988545865
+        "abs_ret": 0.0029042924704958395,
+        "rel_volume": 1.8008575512148641
       },
       {
         "offset_bars": 3,
-        "abs_ret": 0.0029098827851332665,
-        "rel_volume": 1.5449081888678589
+        "abs_ret": 0.002891219939561651,
+        "rel_volume": 1.5443578643578644
       }
     ]
   },
