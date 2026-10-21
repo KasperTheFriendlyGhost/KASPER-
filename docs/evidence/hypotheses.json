@@ -16,15 +16,15 @@
     "S2_api_change_vs_release_bar_return": {
       "question": "Does the hourly bar containing the API release move against the API crude change?",
       "expected_sign": -1,
-      "n": 82,
-      "rho": -0.1169037538778691,
+      "n": 83,
+      "rho": -0.11668520814476249,
       "ci": [
-        -0.3256175054618765,
-        0.13655019583790642
+        -0.3260121619444103,
+        0.1368449598119215
       ],
-      "p": 0.428,
+      "p": 0.393,
       "start": "2025-01-03 00:00:00+00:00",
-      "end": "2026-09-25 00:00:00+00:00"
+      "end": "2026-10-16 00:00:00+00:00"
     },
     "S3_eia_surprise_vs_release_day_session": {
       "question": "Does the release-day session (open\u2192settle) move against the crude surprise?",
@@ -169,15 +169,15 @@
     },
     "H8_spread12_pct_vs_next_session": {
       "question": "Does the M1\u2013M2 spread (backwardation > 0) predict the next WTI session?",
-      "n": 4226,
-      "rho": -0.011409212172236095,
+      "n": 4227,
+      "rho": -0.011551039091726945,
       "ci": [
-        -0.0440114503775708,
-        0.019724304164622994
+        -0.04535591221659724,
+        0.01790814579460032
       ],
-      "p": 0.429,
+      "p": 0.428,
       "start": "2010-01-04 00:00:00",
-      "end": "2026-10-16 00:00:00",
+      "end": "2026-10-19 00:00:00",
       "p_holm": 1.0,
       "significant_after_holm": false
     },

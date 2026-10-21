@@ -71,6 +71,39 @@ def read_manifest(source: str = "tradingview") -> list[dict]:
     return list(latest.values())
 
 
+def stage_auto(src: Path, source: str = "tradingview") -> dict | None:
+    """Stage a saved connector result, naming it from what it contains.
+
+    Parallel tool calls can finish in any order, so the dataset is identified from the
+    payload itself (symbol and interval for OHLCV; first and last event date for the
+    calendar), never from call order. A file already staged (same origin name) is skipped.
+    """
+    from efie.ingest.registry import SYMBOL_TO_SERIES
+
+    src = Path(src)
+    manifest = RAW_DIR / source / MANIFEST
+    if manifest.exists() and any(json.loads(line).get("origin") == src.name for line in manifest.read_text().splitlines() if line.strip()):
+        return None
+    payload = json.loads(src.read_text())
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
+    if "bars" in payload:
+        sym, interval = payload["symbol"], payload["interval"]
+        series = SYMBOL_TO_SERIES.get(sym)
+        if series is None:
+            raise ValueError(f"{src.name}: {sym} is not a registered series")
+        bars = payload["bars"]
+        n = len(bars["t"]) if isinstance(bars, dict) else len(bars)
+        request = {"tool": "get_ohlcv", "symbol": sym, "interval": interval, "bars": n, "window": "inferred from content"}
+        return stage(src, f"{series}_{interval}_r{stamp}", request, source)
+    if "result" in payload:
+        dates = sorted(e["date"][:10] for e in payload["result"])
+        if not dates:
+            return None
+        request = {"tool": "get_economic_calendar", "countries": "US", "window": "inferred from content"}
+        return stage(src, f"cal_{dates[0]}_{dates[-1]}_r{stamp}", request, source)
+    raise ValueError(f"{src.name}: not an OHLCV or calendar result")
+
+
 if __name__ == "__main__":
     if len(sys.argv) != 4:
         sys.exit(__doc__)

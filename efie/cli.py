@@ -33,6 +33,14 @@ def cmd_stage(a):
     print(json.dumps(stage(Path(a.file), a.name, json.loads(a.request), a.source), indent=2))
 
 
+def cmd_stage_auto(a):
+    from efie.ingest.stage import stage_auto
+
+    for f in a.files:
+        e = stage_auto(Path(f))
+        print(f"{Path(f).name}: " + ("already staged" if e is None else f"{e['dataset']} ({e['bytes']:,} bytes)"))
+
+
 def cmd_import_csv(a):
     from efie.ingest.csv_import import import_csv
 
@@ -103,6 +111,16 @@ def cmd_pine_preview(a):
     print(build_preview(_md()))
 
 
+def cmd_pine_schedule(a):
+    from efie.reports.pine_schedule import describe, schedule_string, write_schedule
+
+    md = _md()
+    path = write_schedule(md)
+    print(schedule_string(md))
+    print("upcoming:", "; ".join(describe(schedule_string(md), md.snapshot)), file=sys.stderr)
+    print(f"written to {path}", file=sys.stderr)
+
+
 def cmd_evidence(a):
     from efie.reports.evidence import write_evidence
 
@@ -117,6 +135,7 @@ def cmd_run_all(a):
     from efie.reports.dashboard import build_dashboard
     from efie.reports.evidence import write_evidence
     from efie.reports.pine_preview import build_preview
+    from efie.reports.pine_schedule import write_schedule
     from efie.validation.diagnostics import run_diagnostics
     from efie.validation.hypotheses import run_hypotheses
     from efie.validation.run import run_validation
@@ -131,6 +150,7 @@ def cmd_run_all(a):
         ("daily report", lambda: print("  ", write_report(make_report("daily", md))[1])),
         ("dashboard", lambda: print("  ", build_dashboard(md))),
         ("pine preview", lambda: print("  ", build_preview(md))),
+        ("pine release schedule", lambda: print("  ", write_schedule(md))),
         ("evidence summary", lambda: print("  ", write_evidence())),
     ]
     for name, fn in steps:
@@ -150,6 +170,9 @@ def main(argv=None):
     s.add_argument("request", help="JSON describing the request (tool, symbol, interval, …)")
     s.add_argument("--source", default="tradingview")
     s.set_defaults(fn=cmd_stage)
+    s = sub.add_parser("stage-auto", help="stage saved connector results, named from their content")
+    s.add_argument("files", nargs="+")
+    s.set_defaults(fn=cmd_stage_auto)
     s = sub.add_parser("import-csv", help="import a TradingView chart export or broker OHLCV CSV")
     s.add_argument("file")
     s.add_argument("--series", required=True, help="CL1, CL2, MCL1, RB1, HO1, BRN1, TL1 or BWET")
@@ -169,6 +192,7 @@ def main(argv=None):
     s.set_defaults(fn=cmd_report)
     sub.add_parser("dashboard", help="build dashboard/index.html").set_defaults(fn=cmd_dashboard)
     sub.add_parser("pine-preview", help="build dashboard/pine_preview.html").set_defaults(fn=cmd_pine_preview)
+    sub.add_parser("pine-schedule", help="EIA/API release times to paste into the Pine indicator").set_defaults(fn=cmd_pine_schedule)
     sub.add_parser("evidence", help="write docs/evidence/EVIDENCE.md").set_defaults(fn=cmd_evidence)
     s = sub.add_parser("run-all", help="the whole research pipeline")
     s.add_argument("--signals", nargs="*")

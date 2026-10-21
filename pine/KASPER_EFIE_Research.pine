@@ -8,9 +8,13 @@
 //   • 3-2-1, diesel (ULSD) and gasoline (RBOB) crack spreads, USD/bbl
 //   • Brent–WTI spread (previous completed session — never the forming bar)
 //   • a tanker-freight proxy (BWET, previous completed session)
-//   • the scheduled EIA (Wed 10:30 ET) and API (Tue 16:30 ET) windows
+//   • EIA and API release times — from the schedule EFIE generates (paste it into the
+//     "Release schedule" input), otherwise the usual Wed 10:30 / Tue 16:30 ET rule
 // EIA/API figures vs consensus, TD3C freight futures history, the thesis board and the
 // validation evidence are not available to Pine; they are on the EFIE dashboard.
+//
+// Futures are requested unadjusted, with settlement as the daily close, so the values match
+// the EFIE engine whatever this chart's own continuous-futures settings are.
 //
 // Symbols are inputs. ICE Brent needs an ICE data permission on TradingView; without one,
 // set "Brent front month" to TVC:UKOIL (a CFD proxy) or leave the Brent row as n/a.
@@ -34,18 +38,23 @@ symFR = input.symbol("AMEX:BWET", "Tanker-freight proxy", group = grpS)
 grpD = "Display"
 panel = input.string("M1–M2 spread", "Plot", options = ["M1–M2 spread", "3-2-1 crack", "Diesel crack", "Gasoline crack", "Brent–WTI (prev. session)", "Freight proxy 5-session change"], group = grpD)
 mode = input.string("Z-score", "Scale", options = ["Level", "Z-score"], group = grpD)
-zLen = input.int(240, "Z-score lookback (chart bars)", minval = 20, group = grpD)
+zLen = input.int(240, "Z-score lookback (chart bars)", minval = 20, group = grpD, tooltip = "On a 1h chart, 240 bars matches the EFIE report's M1–M2 z. The report's crack z uses 250 daily sessions: use a 1D chart with 250 to match it.")
 shadeRegime = input.bool(true, "Shade backwardation (M1 > M2)", group = grpD)
-markEIA = input.bool(true, "Mark scheduled EIA window (Wed 10:30 ET)", group = grpD)
-markAPI = input.bool(true, "Mark scheduled API window (Tue 16:30 ET)", group = grpD)
 showTable = input.bool(true, "Show summary table", group = grpD)
 
+grpR = "Release schedule"
+markEIA = input.bool(true, "Mark EIA release bars", group = grpR)
+markAPI = input.bool(true, "Mark API release bars", group = grpR)
+sched = input.text_area("", "Schedule from EFIE (python -m efie pine-schedule)", group = grpR, tooltip = "Comma-separated E<unix ms> (EIA) and A<unix ms> (API) times. Bars from the first listed time on use this list, including holiday shifts; earlier bars use the Wed 10:30 / Tue 16:30 ET rule.")
+
 // ───────────────────────── Data
+// Unadjusted continuous futures with settlement as the daily close, as in the EFIE engine.
+pinned(sym) => ticker.modify(sym, backadjustment = backadjustment.off, settlement_as_close = settlement_as_close.on)
 // Same-timeframe requests: no lookahead, so historical bars never see later data.
-same(sym) => request.security(sym, timeframe.period, close, gaps = barmerge.gaps_off, lookahead = barmerge.lookahead_off)
+same(sym) => request.security(pinned(sym), timeframe.period, close, gaps = barmerge.gaps_off, lookahead = barmerge.lookahead_off)
 // Previous completed daily value: `close[1]` with lookahead_on is the standard
 // non-repainting form — it only ever returns a session that has already settled.
-prevDay(sym) => request.security(sym, "D", close[1], lookahead = barmerge.lookahead_on)
+prevDay(sym) => request.security(pinned(sym), "D", close[1], lookahead = barmerge.lookahead_on)
 prevDayChg5(sym) => request.security(sym, "D", math.log(close[1] / close[6]), lookahead = barmerge.lookahead_on)
 
 m1 = same(symM1)
@@ -85,31 +94,65 @@ zDiesel = zscore(crackDiesel)
 zGas = zscore(crackGas)
 value = mode == "Z-score" ? zLevel : level
 
-// ───────────────────────── Scheduled release windows (holiday weeks shift; Pine cannot know)
-inBarAt(h, mi, dow) =>
+// ───────────────────────── Release windows
+var array<int> eiaTimes = array.new<int>()
+var array<int> apiTimes = array.new<int>()
+var int schedStart = na
+if barstate.isfirst and str.length(sched) > 0
+    for tok in str.split(sched, ",")
+        if str.length(tok) > 1
+            kind = str.substring(tok, 0, 1)
+            ms = str.tonumber(str.substring(tok, 1))
+            if not na(ms)
+                t0 = int(ms)
+                if kind == "E"
+                    array.push(eiaTimes, t0)
+                if kind == "A"
+                    array.push(apiTimes, t0)
+                if na(schedStart) or t0 < schedStart
+                    schedStart := t0
+
+listedInBar(arr) =>
+    hit = false
+    for t0 in arr
+        if t0 >= time and t0 < time_close
+            hit := true
+    hit
+
+nextListed(arr) =>
+    int nxt = na
+    for t0 in arr
+        if t0 > timenow and (na(nxt) or t0 < nxt)
+            nxt := t0
+    nxt
+
+ruleInBar(h, mi, dow) =>
     tz = "America/New_York"
     t0 = timestamp(tz, year(time, tz), month(time, tz), dayofmonth(time, tz), h, mi, 0)
     timeframe.isintraday and dayofweek(time, tz) == dow and time <= t0 and t0 < time_close
 
-eiaBar = markEIA and inBarAt(10, 30, dayofweek.wednesday)
-apiBar = markAPI and inBarAt(16, 30, dayofweek.tuesday)
+useList = not na(schedStart) and time_close > schedStart
+eiaBar = markEIA and (useList ? listedInBar(eiaTimes) : ruleInBar(10, 30, dayofweek.wednesday))
+apiBar = markAPI and (useList ? listedInBar(apiTimes) : ruleInBar(16, 30, dayofweek.tuesday))
 
 // ───────────────────────── Plots
 lineColor = color.new(#2a78d6, 0)
 plot(value, "EFIE value", color = lineColor, linewidth = 2)
 hline(0, "Zero", color = color.new(color.gray, 50), linestyle = hline.style_solid)
 bgcolor(shadeRegime and spread12 > 0 ? color.new(#2a78d6, 93) : na, title = "Backwardation")
-bgcolor(eiaBar ? color.new(#eda100, 75) : na, title = "EIA window")
-bgcolor(apiBar ? color.new(#6250d6, 80) : na, title = "API window")
+bgcolor(eiaBar ? color.new(#eda100, 75) : na, title = "EIA release")
+bgcolor(apiBar ? color.new(#6250d6, 80) : na, title = "API release")
 
 // ───────────────────────── Summary table
 fmt(x, f) => na(x) ? "n/a" : str.tostring(x, f)
+fmtTime(t) => na(t) ? "not in schedule" : str.format_time(t, "EEE dd MMM HH:mm", "America/New_York") + " ET"
 
-var table t = table.new(position.top_right, 3, 9, bgcolor = color.new(color.black, 85), border_width = 1)
+var table t = table.new(position.top_right, 3, 11, bgcolor = color.new(color.black, 85), border_width = 1)
 if showTable and barstate.islast
+    zHead = "z (" + str.tostring(zLen) + " × " + timeframe.period + ")"
     table.cell(t, 0, 0, "EFIE research", text_color = color.white, text_size = size.small)
     table.cell(t, 1, 0, "level", text_color = color.white, text_size = size.small)
-    table.cell(t, 2, 0, "z", text_color = color.white, text_size = size.small)
+    table.cell(t, 2, 0, zHead, text_color = color.white, text_size = size.small)
     table.cell(t, 0, 1, "M1–M2 spread", text_color = color.white, text_size = size.small)
     table.cell(t, 1, 1, fmt(spread12, "#.00"), text_color = color.white, text_size = size.small)
     table.cell(t, 2, 1, fmt(zSpread, "#.00"), text_color = color.white, text_size = size.small)
@@ -131,4 +174,10 @@ if showTable and barstate.islast
     table.cell(t, 0, 7, "Curve", text_color = color.white, text_size = size.small)
     table.cell(t, 1, 7, spread12 > 0 ? "backwardation" : "contango", text_color = color.white, text_size = size.small)
     table.cell(t, 2, 7, "", text_color = color.white, text_size = size.small)
-    table.cell(t, 0, 8, "Research only · not a signal", text_color = color.new(color.white, 30), text_size = size.tiny)
+    table.cell(t, 0, 8, "Next EIA", text_color = color.white, text_size = size.small)
+    table.cell(t, 1, 8, na(schedStart) ? "paste schedule" : fmtTime(nextListed(eiaTimes)), text_color = color.white, text_size = size.small)
+    table.cell(t, 2, 8, "", text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 9, "Next API", text_color = color.white, text_size = size.small)
+    table.cell(t, 1, 9, na(schedStart) ? "paste schedule" : fmtTime(nextListed(apiTimes)), text_color = color.white, text_size = size.small)
+    table.cell(t, 2, 9, "", text_color = color.white, text_size = size.small)
+    table.cell(t, 0, 10, "Research only · not a signal", text_color = color.new(color.white, 30), text_size = size.tiny)

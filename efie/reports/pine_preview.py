@@ -55,9 +55,9 @@ def compute(md: MarketData) -> pd.DataFrame:
         df["freight_proxy_chg5"] = pd.Series(chg.reindex(td, method="ffill").to_numpy(), index=idx)
     for c in ("spread12", "crack321", "crack_diesel", "crack_gas"):
         df[f"{c}_z"] = pine_z(df[c])
-    et = idx.tz_convert(ET)
-    df["eia_window"] = (et.dayofweek == 2) & (et.hour == 10)
-    df["api_window"] = (et.dayofweek == 1) & (et.hour == 16)
+    from efie.reports.pine_schedule import mark, schedule_string
+
+    df = pd.concat([df, mark(idx, schedule_string(md))], axis=1)
     return df
 
 
@@ -91,7 +91,13 @@ def build_preview(md: MarketData, bars: int = 500) -> str:
     table = "".join(f"<tr><td>{html.escape(a)}</td><td class='num'>{f(b)}</td><td class='num'>{f(c)}</td></tr>" for a, b, c in rows)
     curve = "backwardation" if last["spread12"] > 0 else "contango"
     page = PAGE.replace("__CSS__", BASE_CSS).replace("__CHART_JS__", CHART_JS).replace("__DATA__", json.dumps(charts))
+    from efie.reports.pine_schedule import describe, schedule_string
+
+    sched = schedule_string(md)
+    upcoming = describe(sched, md.snapshot)
     page = page.replace("__BAR__", html.escape(str(df.index[-1]))).replace("__TABLE__", table).replace("__CURVE__", curve)
+    page = page.replace("__SCHED__", html.escape(sched)).replace("__UPCOMING__", html.escape("; ".join(upcoming) or "none in the calendar window"))
+    page = page.replace("__ZHEAD__", f"z ({Z_LEN} × 60)")
     DASHBOARD_DIR.mkdir(parents=True, exist_ok=True)
     out = DASHBOARD_DIR / "pine_preview.html"
     out.write_text(page)
@@ -104,7 +110,9 @@ PAGE = r"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name
 <header><div><h1>EFIE-R Pine indicator — offline preview</h1><div class="sub">1-hour CL1! chart, last bar __BAR__ (bar open, UTC) · curve: __CURVE__</div></div></header>
 <p class="note">These are the series <code>pine/KASPER_EFIE_Research.pine</code> computes. To see the real thing: TradingView → open a <b>new</b> chart tab on NYMEX:CL1! (or MCL1!), 1h →
 Pine Editor → New → Indicator → paste the file → Save as “KASPER EFIE Research” → Add to chart. Your existing indicator and layouts are not touched.</p>
-<h2>Last-bar table (compare with the indicator's table)</h2><div class="card scroll"><table><thead><tr><th>Quantity</th><th>Level</th><th>z</th></tr></thead><tbody>__TABLE__</tbody></table></div>
+<h2>Last-bar table (compare with the indicator's table)</h2><div class="card scroll"><table><thead><tr><th>Quantity</th><th>Level</th><th>__ZHEAD__</th></tr></thead><tbody>__TABLE__</tbody></table></div>
+<h2>Release schedule for the indicator</h2><div class="card"><p class="sub">Indicator settings → Release schedule → paste into “Schedule from EFIE”. Upcoming: __UPCOMING__. Regenerate weekly with <code>python -m efie pine-schedule</code>.</p>
+<textarea readonly rows="4" style="width:100%;font:12px ui-monospace,monospace;background:var(--page);color:var(--ink);border:1px solid var(--ring);border-radius:6px;padding:8px">__SCHED__</textarea></div>
 <h2>Panels (one plot each in the indicator — pick with the “Plot” input)</h2><div class="grid" id="charts"></div>
 </main><div class="tt" id="tt"></div><script>const DATA=__DATA__;
 __CHART_JS__const host=document.getElementById('charts');Object.keys(DATA).forEach(k=>{const c=document.createElement('div');c.className='card';host.appendChild(c);line(c,DATA[k])});

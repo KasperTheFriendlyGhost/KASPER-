@@ -48,8 +48,8 @@ def to_markdown(r: dict) -> str:
     L.append("|---|---|---|")
     L.append(f"| CL1 last (bar {m['cl1_bar']}) | {_num(m['cl1_last'])} | 1h {_pct(m['ret_1h'])}, 4h {_pct(m['ret_4h'])}, 24h {_pct(m['ret_24h'])} |")
     L.append(f"| CL1 settle ({m['settle_date']}) | {_num(m['cl1_settle'])} | 1d {_pct(m['ret_1d'])}, 5d {_pct(m['ret_5d'])} |")
-    L.append(f"| M1–M2 spread (USD/bbl) | {_num(m['spread12'], '{:+.2f}')} | {m['regime']}; z {_num(m['spread12_z'], '{:+.2f}')}; 5-session Δ {_num(m['spread12_chg5'], '{:+.2f}')} |")
-    L.append(f"| 3-2-1 crack (USD/bbl) | {_num(m['crack321'])} | z(250) {_num(m['crack321_z'], '{:+.2f}')}; diesel {_num(m['crack_diesel'])}, gasoline {_num(m['crack_gas'])} |")
+    L.append(f"| M1–M2 spread (USD/bbl) | {_num(m['spread12'], '{:+.2f}')} | {m['regime']}; z (240 hourly bars) {_num(m['spread12_z'], '{:+.2f}')}; 5-session Δ {_num(m['spread12_chg5'], '{:+.2f}')} |")
+    L.append(f"| 3-2-1 crack (USD/bbl) | {_num(m['crack321'])} | z (250 sessions) {_num(m['crack321_z'], '{:+.2f}')}; diesel {_num(m['crack_diesel'])}, gasoline {_num(m['crack_gas'])} |")
     L.append(f"| Brent–WTI (USD/bbl, lagged 1 session) | {_num(m['brent_wti'], '{:+.2f}')} | 5-session Δ {_num(m['brent_wti_chg5'], '{:+.2f}')} |")
     td3c = "STALE / unavailable" if m["td3c_chg5"] is None else f"{_num(m['td3c'])} USD/mt, 5d {_pct(m['td3c_chg5'], 1)}"
     L.append(f"| TD3C VLCC freight | {td3c} | last obs {_num(m['td3c_age_days'], '{:.0f}')} days old |")

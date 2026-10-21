@@ -22,8 +22,13 @@ ask Claude to "refresh the EFIE data". It repeats the requests listed in `docs/e
 result byte-for-byte:
 
 ```bash
+python -m efie stage-auto <saved_result_file> [<more files> …]   # names each file from its own content
 python -m efie stage <saved_result_file> <dataset_name> '{"tool":"get_ohlcv","symbol":"NYMEX:CL1!","interval":"1h","date_from":"2015-01-01","count":8000,"format":"columns"}'
 ```
+
+A refresh only needs overlapping windows: the latest 5,000 hourly bars per contract (rows format), the
+daily series from 2010, and the calendar from a week back to its forward limit (~31 days). Later snapshots
+win where they overlap; forming bars are dropped automatically.
 
 **B. On your own machine, prices from TradingView chart exports** (chart → ⋯ → *Export chart data…*, ISO time):
 
@@ -107,6 +112,25 @@ run the real indicator: TradingView → open a **new chart tab** on `NYMEX:CL1!`
 Editor → *New* → *Indicator* → replace the template with the contents of `pine/KASPER_EFIE_Research.pine` →
 *Save* (name it "KASPER EFIE Research") → *Add to chart*. Compare the indicator's table with the preview's
 last-bar table. Your existing indicator and layouts are untouched.
+
+Release times (EIA, API) — weekly:
+
+```bash
+python -m efie pine-schedule          # prints the schedule string and writes dashboard/pine_schedule.txt
+```
+
+Indicator settings → *Release schedule* → paste the string into "Schedule from EFIE". Bars from the first listed
+time on are marked from the list (holiday shifts included); earlier bars use the Wed 10:30 / Tue 16:30 ET rule.
+Entries on the usual weekday at an unusual time are flagged in the output (typically forward entries the
+calendar has not yet adjusted for a daylight-saving change) — regenerate nearer the date.
+
+Settings the indicator pins: futures are requested unadjusted with settlement as the daily close (the same series
+the engine uses), whatever the chart's own continuous-futures settings are. z-scores in the indicator's table use
+the chart's bars ("z (240 × 60)" = 240 one-hour bars, which matches the report's M1–M2 z); the report's crack
+z uses 250 daily sessions — a 1D chart with lookback 250 matches it.
+
+If TradingView rejects the `ticker.modify(… backadjustment …, settlement_as_close …)` line (older Pine runtimes),
+replace the body of `pinned(sym)` with `sym` and keep the chart's continuous-futures settings at their defaults.
 
 ## Tests
 
