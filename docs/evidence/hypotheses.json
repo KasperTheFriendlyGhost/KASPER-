@@ -114,7 +114,7 @@
     "H4_api_surprise_predicts_eia_surprise": {
       "question": "Does the API surprise (Tuesday) predict the EIA surprise (Wednesday)?",
       "n": 269,
-      "rho": 0.688768672128823,
+      "rho": 0.6887594246857409,
       "ci": [
         0.6130651076862725,
         0.7584754201370142
@@ -169,15 +169,15 @@
     },
     "H8_spread12_pct_vs_next_session": {
       "question": "Does the M1\u2013M2 spread (backwardation > 0) predict the next WTI session?",
-      "n": 4236,
-      "rho": -0.011221520667370087,
+      "n": 4237,
+      "rho": -0.011302772414346114,
       "ci": [
-        -0.044377494325704155,
-        0.019617857135400266
+        -0.043449978280546184,
+        0.020846916051408083
       ],
-      "p": 0.482,
+      "p": 0.491,
       "start": "2010-01-04 00:00:00",
-      "end": "2026-10-30 00:00:00",
+      "end": "2026-11-02 00:00:00",
       "p_holm": 1.0,
       "significant_after_holm": false
     },
