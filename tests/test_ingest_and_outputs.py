@@ -5,7 +5,7 @@ import pandas as pd
 
 from efie.explain.theses import CONTRADICTED, SUPPORTED, UNKNOWN, evaluate
 from efie.ingest.csv_import import read_ohlcv_csv
-from efie.ingest.tradingview import _complete, bars_from_payload
+from efie.ingest.tradingview import _complete, _dedupe_releases, bars_from_payload
 from efie.reports.pine_preview import pine_z
 
 
@@ -56,3 +56,25 @@ def test_thesis_label_requires_holm_significance():
     hyp = {"family": {"H6_cushing_change_vs_next5_spread_change": {"rho": -0.3, "ci": [-0.4, -0.2], "n": 300, "significant_after_holm": True}}}
     t1 = next(t for t in evaluate({"ts_spread12": 1.0}, hyp) if t["id"] == "T1")
     assert t1["label"] == "historically supported relationship"
+
+
+def test_duplicate_release_keeps_the_copy_with_the_print():
+    # Same API week under the feed's old short id (no print) and its new long id (printed).
+    ts = pd.Timestamp("2026-11-03 21:30", tz="UTC")
+    ref = pd.Timestamp("2026-10-30", tz="UTC")
+    df = pd.DataFrame(
+        {
+            "event_id": ["1001660034202", "397206"],
+            "series": ["api_crude", "api_crude"],
+            "release_ts": [ts, ts],
+            "reference_date": [ref, ref],
+            "actual": [-5267000.0, np.nan],
+            "consensus": [1750000.0, np.nan],
+        }
+    )
+    out = _dedupe_releases(df)
+    assert len(out) == 1
+    assert out["actual"].iloc[0] == -5267000.0
+    # A different reference week at the same moment is kept.
+    two = pd.concat([df, df.assign(reference_date=ref - pd.Timedelta(days=7), event_id=["a", "b"])])
+    assert len(_dedupe_releases(two)) == 2

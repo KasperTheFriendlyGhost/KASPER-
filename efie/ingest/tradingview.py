@@ -85,6 +85,21 @@ def daily_close_frame(series: str) -> pd.DataFrame:
     return out[~out.index.duplicated(keep="last")]
 
 
+def _dedupe_releases(df: pd.DataFrame) -> pd.DataFrame:
+    """Keep one row per series, release time and reference week.
+
+    The same release can appear under two ids (title variants, or the feed's old short
+    ids next to its newer long ones). A copy that carries the printed figure is kept
+    over one that does not, so an older, empty copy never hides the actual. Two
+    *different* weeks published at the same moment (EIA's catch-up after a delayed
+    report) are both kept.
+    """
+    df = df.assign(_ref=df["reference_date"].astype(str), _has=df["actual"].notna())
+    df = df.sort_values(["series", "release_ts", "_has", "event_id"])
+    df = df.drop_duplicates(subset=["series", "release_ts", "_ref"], keep="last")
+    return df.sort_values(["series", "release_ts", "event_id"]).drop(columns=["_ref", "_has"])
+
+
 def load_calendar_events() -> pd.DataFrame:
     """Energy releases (EIA, API, Baker Hughes) from every staged calendar window."""
     seen: dict[str, dict] = {}
@@ -118,12 +133,7 @@ def load_calendar_events() -> pd.DataFrame:
         return df
     for col in ("actual", "consensus", "previous"):
         df[col] = pd.to_numeric(df[col], errors="coerce")
-    df = df.sort_values(["series", "release_ts", "event_id"])
-    # The same release can appear under two ids (title variants); keep one per series,
-    # time and reference week. Two *different* weeks published at the same moment (EIA's
-    # catch-up after a delayed report) are both kept.
-    df["_ref"] = df["reference_date"].astype(str)
-    df = df.drop_duplicates(subset=["series", "release_ts", "_ref"], keep="last").drop(columns="_ref")
+    df = _dedupe_releases(df)
     # Revision seen at the next release: its "previous" vs this release's first print.
     df["next_previous"] = df.groupby("series")["previous"].shift(-1)
     df["revision"] = df["next_previous"] - df["actual"]
