@@ -7,511 +7,511 @@
     "REF ema_20_50 (hourly)": {
       "baseline": {
         "costs_1x": {
-          "sessions": 388,
-          "net_usd": -585.7499999999939,
-          "gross_usd": 276.000000000005,
+          "sessions": 389,
+          "net_usd": -901.7499999999934,
+          "gross_usd": -39.99999999999318,
           "costs_usd": 861.75,
-          "sharpe_annual": -0.092291439192809,
+          "sharpe_annual": -0.14163102682314094,
           "max_drawdown_usd": -6014.499999999996,
-          "profit_factor": 0.982319249605711,
+          "profit_factor": 0.9730380248316279,
           "contracts_traded": 347.0,
-          "exposure": 0.9998872350022553,
-          "session_hit_rate": 0.5
+          "exposure": 0.9998875267124058,
+          "session_hit_rate": 0.4987146529562982
         },
         "costs_2x": {
-          "sessions": 388,
-          "net_usd": -1447.4999999999939,
-          "gross_usd": 276.000000000005,
+          "sessions": 389,
+          "net_usd": -1763.4999999999934,
+          "gross_usd": -39.99999999999318,
           "costs_usd": 1723.5,
-          "sharpe_annual": -0.22688862601856466,
+          "sharpe_annual": -0.2755577245184799,
           "max_drawdown_usd": -6513.999999999995,
-          "profit_factor": 0.9572283371500335,
+          "profit_factor": 0.9483730257476181,
           "contracts_traded": 347.0,
-          "exposure": 0.9998872350022553,
-          "session_hit_rate": 0.4948453608247423
+          "exposure": 0.9998875267124058,
+          "session_hit_rate": 0.493573264781491
         }
       },
       "eia_standaside": {
         "costs_1x": {
-          "sessions": 388,
-          "net_usd": -1187.2500000000002,
-          "gross_usd": 3.0,
+          "sessions": 389,
+          "net_usd": -1503.2499999999998,
+          "gross_usd": -312.9999999999991,
           "costs_usd": 1190.25,
-          "sharpe_annual": -0.19813357009287597,
+          "sharpe_annual": -0.25002280488498235,
           "max_drawdown_usd": -6226.999999999996,
-          "profit_factor": 0.9627380363910272,
+          "profit_factor": 0.9532836621009535,
           "contracts_traded": 493.0,
-          "exposure": 0.9735002255299955,
-          "session_hit_rate": 0.4896907216494845
+          "exposure": 0.9735687774153639,
+          "session_hit_rate": 0.4884318766066838
         },
         "costs_2x": {
-          "sessions": 388,
-          "net_usd": -2377.5000000000005,
-          "gross_usd": 3.0,
+          "sessions": 389,
+          "net_usd": -2693.5,
+          "gross_usd": -312.9999999999991,
           "costs_usd": 2380.5,
-          "sharpe_annual": -0.39469605109766887,
+          "sharpe_annual": -0.4456754901798166,
           "max_drawdown_usd": -6937.999999999996,
-          "profit_factor": 0.9274123376127743,
+          "profit_factor": 0.918550325828936,
           "contracts_traded": 493.0,
-          "exposure": 0.9735002255299955,
-          "session_hit_rate": 0.48195876288659795
+          "exposure": 0.9735687774153639,
+          "session_hit_rate": 0.480719794344473
         }
       },
       "efie_agreement": {
         "costs_1x": {
-          "sessions": 388,
-          "net_usd": -1314.0000000000032,
-          "gross_usd": 1943.9999999999961,
-          "costs_usd": 3258.0,
-          "sharpe_annual": -0.36746378817737857,
+          "sessions": 389,
+          "net_usd": -1332.000000000002,
+          "gross_usd": 1934.9999999999977,
+          "costs_usd": 3267.0,
+          "sharpe_annual": -0.37201489455098,
           "max_drawdown_usd": -3603.25000000001,
-          "profit_factor": 0.9225703805188489,
-          "contracts_traded": 1434.0,
-          "exposure": 0.4167794316644114,
-          "session_hit_rate": 0.3865979381443299
+          "profit_factor": 0.921592865657145,
+          "contracts_traded": 1438.0,
+          "exposure": 0.4159262175233382,
+          "session_hit_rate": 0.3856041131105398
         },
         "costs_2x": {
-          "sessions": 388,
-          "net_usd": -4572.000000000004,
-          "gross_usd": 1943.9999999999961,
-          "costs_usd": 6516.0,
-          "sharpe_annual": -1.2816546618950861,
+          "sessions": 389,
+          "net_usd": -4599.000000000003,
+          "gross_usd": 1934.9999999999977,
+          "costs_usd": 6534.0,
+          "sharpe_annual": -1.287551563743122,
           "max_drawdown_usd": -5433.500000000007,
-          "profit_factor": 0.7561599999999998,
-          "contracts_traded": 1434.0,
-          "exposure": 0.4167794316644114,
-          "session_hit_rate": 0.3634020618556701
+          "profit_factor": 0.7550726953187408,
+          "contracts_traded": 1438.0,
+          "exposure": 0.4159262175233382,
+          "session_hit_rate": 0.36246786632390743
         }
       },
       "carry_filter": {
         "costs_1x": {
-          "sessions": 388,
+          "sessions": 389,
           "net_usd": 1910.5000000000098,
-          "gross_usd": 2401.000000000008,
+          "gross_usd": 2401.0000000000077,
           "costs_usd": 490.5,
-          "sharpe_annual": 0.3715774246004279,
+          "sharpe_annual": 0.3711004818331945,
           "max_drawdown_usd": -2847.249999999995,
           "profit_factor": 1.0906191080385628,
           "contracts_traded": 200.0,
-          "exposure": 0.557510148849797,
-          "session_hit_rate": 0.35309278350515466
+          "exposure": 0.5560679338657069,
+          "session_hit_rate": 0.35218508997429304
         },
         "costs_2x": {
-          "sessions": 388,
+          "sessions": 389,
           "net_usd": 1420.0000000000098,
-          "gross_usd": 2401.000000000008,
+          "gross_usd": 2401.0000000000077,
           "costs_usd": 981.0,
-          "sharpe_annual": 0.27552147599722393,
+          "sharpe_annual": 0.27516791448732164,
           "max_drawdown_usd": -2975.4999999999955,
           "profit_factor": 1.0662020093708482,
           "contracts_traded": 200.0,
-          "exposure": 0.557510148849797,
-          "session_hit_rate": 0.35309278350515466
+          "exposure": 0.5560679338657069,
+          "session_hit_rate": 0.35218508997429304
         }
       }
     },
     "REF donchian_24 (hourly)": {
       "baseline": {
         "costs_1x": {
-          "sessions": 388,
-          "net_usd": 3059.249999999992,
-          "gross_usd": 4181.999999999992,
-          "costs_usd": 1122.75,
-          "sharpe_annual": 0.48995959576418385,
+          "sessions": 389,
+          "net_usd": 2922.7499999999927,
+          "gross_usd": 4049.9999999999936,
+          "costs_usd": 1127.25,
+          "sharpe_annual": 0.467305363152855,
           "max_drawdown_usd": -3451.0000000000095,
-          "profit_factor": 1.0979704575477363,
-          "contracts_traded": 463.0,
-          "exposure": 0.9998872350022553,
-          "session_hit_rate": 0.520618556701031
+          "profit_factor": 1.0931917641150728,
+          "contracts_traded": 465.0,
+          "exposure": 0.9998875267124058,
+          "session_hit_rate": 0.519280205655527
         },
         "costs_2x": {
-          "sessions": 388,
-          "net_usd": 1936.4999999999932,
-          "gross_usd": 4181.999999999992,
-          "costs_usd": 2245.5,
-          "sharpe_annual": 0.30833224083015487,
+          "sessions": 389,
+          "net_usd": 1795.4999999999936,
+          "gross_usd": 4049.9999999999936,
+          "costs_usd": 2254.5,
+          "sharpe_annual": 0.2853965867438487,
           "max_drawdown_usd": -3586.000000000009,
-          "profit_factor": 1.060309254270543,
-          "contracts_traded": 463.0,
-          "exposure": 0.9998872350022553,
-          "session_hit_rate": 0.5154639175257731
+          "profit_factor": 1.0556735554487526,
+          "contracts_traded": 465.0,
+          "exposure": 0.9998875267124058,
+          "session_hit_rate": 0.5141388174807198
         }
       },
       "eia_standaside": {
         "costs_1x": {
-          "sessions": 388,
-          "net_usd": 1615.249999999996,
-          "gross_usd": 3016.999999999996,
-          "costs_usd": 1401.75,
-          "sharpe_annual": 0.2654223060131581,
+          "sessions": 389,
+          "net_usd": 1478.7499999999964,
+          "gross_usd": 2884.999999999996,
+          "costs_usd": 1406.25,
+          "sharpe_annual": 0.24258077455179558,
           "max_drawdown_usd": -3341.500000000008,
-          "profit_factor": 1.0529087097513838,
-          "contracts_traded": 587.0,
-          "exposure": 0.9735002255299955,
-          "session_hit_rate": 0.5077319587628866
+          "profit_factor": 1.0482219432261008,
+          "contracts_traded": 589.0,
+          "exposure": 0.9735687774153639,
+          "session_hit_rate": 0.506426735218509
         },
         "costs_2x": {
-          "sessions": 388,
-          "net_usd": 213.4999999999959,
-          "gross_usd": 3016.999999999996,
-          "costs_usd": 2803.5,
-          "sharpe_annual": 0.034899467760100104,
+          "sessions": 389,
+          "net_usd": 72.49999999999659,
+          "gross_usd": 2884.999999999996,
+          "costs_usd": 2812.5,
+          "sharpe_annual": 0.01183102875329724,
           "max_drawdown_usd": -3472.000000000009,
-          "profit_factor": 1.0067672509429777,
-          "contracts_traded": 587.0,
-          "exposure": 0.9735002255299955,
-          "session_hit_rate": 0.49742268041237114
+          "profit_factor": 1.0022877879457242,
+          "contracts_traded": 589.0,
+          "exposure": 0.9735687774153639,
+          "session_hit_rate": 0.4961439588688946
         }
       },
       "efie_agreement": {
         "costs_1x": {
-          "sessions": 388,
-          "net_usd": -147.5000000000109,
-          "gross_usd": 3177.99999999999,
-          "costs_usd": 3325.5,
-          "sharpe_annual": -0.039536207900965556,
+          "sessions": 389,
+          "net_usd": -78.00000000000966,
+          "gross_usd": 3260.9999999999914,
+          "costs_usd": 3339.0,
+          "sharpe_annual": -0.02087482432492549,
           "max_drawdown_usd": -2466.5000000000086,
-          "profit_factor": 0.9917292811483677,
-          "contracts_traded": 1462.0,
-          "exposure": 0.4207262065854759,
-          "session_hit_rate": 0.4175257731958763
+          "profit_factor": 0.9956263317259164,
+          "contracts_traded": 1468.0,
+          "exposure": 0.42008772916432346,
+          "session_hit_rate": 0.4190231362467866
         },
         "costs_2x": {
-          "sessions": 388,
-          "net_usd": -3473.000000000011,
-          "gross_usd": 3177.99999999999,
-          "costs_usd": 6651.0,
-          "sharpe_annual": -0.9318241014724518,
+          "sessions": 389,
+          "net_usd": -3417.0000000000095,
+          "gross_usd": 3260.9999999999914,
+          "costs_usd": 6678.0,
+          "sharpe_annual": -0.9154088931907133,
           "max_drawdown_usd": -4205.500000000009,
-          "profit_factor": 0.8229009969149174,
-          "contracts_traded": 1462.0,
-          "exposure": 0.4207262065854759,
-          "session_hit_rate": 0.3865979381443299
+          "profit_factor": 0.8257566099793472,
+          "contracts_traded": 1468.0,
+          "exposure": 0.42008772916432346,
+          "session_hit_rate": 0.38817480719794345
         }
       },
       "carry_filter": {
         "costs_1x": {
-          "sessions": 388,
-          "net_usd": 3726.5000000000014,
-          "gross_usd": 4352.000000000002,
-          "costs_usd": 625.5,
-          "sharpe_annual": 0.7903281494685452,
+          "sessions": 389,
+          "net_usd": 3816.2500000000014,
+          "gross_usd": 4444.000000000001,
+          "costs_usd": 627.75,
+          "sharpe_annual": 0.8081445940279388,
           "max_drawdown_usd": -1806.2499999999975,
-          "profit_factor": 1.1805781019068156,
-          "contracts_traded": 264.0,
-          "exposure": 0.5594271538114569,
-          "session_hit_rate": 0.3788659793814433
+          "profit_factor": 1.1849271921110653,
+          "contracts_traded": 265.0,
+          "exposure": 0.558429872905185,
+          "session_hit_rate": 0.38046272493573263
         },
         "costs_2x": {
-          "sessions": 388,
-          "net_usd": 3101.0000000000014,
-          "gross_usd": 4352.000000000002,
-          "costs_usd": 1251.0,
-          "sharpe_annual": 0.6555215131802181,
+          "sessions": 389,
+          "net_usd": 3188.5000000000014,
+          "gross_usd": 4444.000000000001,
+          "costs_usd": 1255.5,
+          "sharpe_annual": 0.6730071599834493,
           "max_drawdown_usd": -1889.4999999999975,
-          "profit_factor": 1.1469041641006206,
-          "contracts_traded": 264.0,
-          "exposure": 0.5594271538114569,
-          "session_hit_rate": 0.3788659793814433
+          "profit_factor": 1.1510493154578616,
+          "contracts_traded": 265.0,
+          "exposure": 0.558429872905185,
+          "session_hit_rate": 0.38046272493573263
         }
       }
     },
     "REF momentum_20 (daily)": {
       "baseline": {
         "costs_1x": {
-          "sessions": 3480,
-          "net_usd": 13901.249999999987,
-          "gross_usd": 16121.999999999989,
+          "sessions": 3481,
+          "net_usd": 14141.249999999987,
+          "gross_usd": 16361.999999999989,
           "costs_usd": 2220.75,
-          "sharpe_annual": 0.3305158560532104,
+          "sharpe_annual": 0.3361007459810123,
           "max_drawdown_usd": -5397.000000000018,
-          "profit_factor": 1.0719287193570461,
+          "profit_factor": 1.073170542405023,
           "contracts_traded": 657.0,
-          "exposure": 0.9939655172413793,
-          "session_hit_rate": 0.506896551724138
+          "exposure": 0.9939672507900029,
+          "session_hit_rate": 0.5070382074116633
         },
         "costs_2x": {
-          "sessions": 3480,
-          "net_usd": 11680.499999999987,
-          "gross_usd": 16121.999999999989,
+          "sessions": 3481,
+          "net_usd": 11920.499999999987,
+          "gross_usd": 16361.999999999989,
           "costs_usd": 4441.5,
-          "sharpe_annual": 0.277652061186184,
+          "sharpe_annual": 0.28325442514471655,
           "max_drawdown_usd": -6072.000000000022,
-          "profit_factor": 1.0600819404401534,
+          "profit_factor": 1.061316448013086,
           "contracts_traded": 657.0,
-          "exposure": 0.9939655172413793,
-          "session_hit_rate": 0.5057471264367817
+          "exposure": 0.9939672507900029,
+          "session_hit_rate": 0.5058891123240448
         },
         "costs_1x_excluding_uncertain_roll_windows": {
-          "sessions": 2991,
-          "net_usd": 16855.999999999996,
-          "gross_usd": 18493.999999999996,
+          "sessions": 2992,
+          "net_usd": 17095.999999999993,
+          "gross_usd": 18733.999999999993,
           "costs_usd": 1638.0,
-          "sharpe_annual": 0.45159203613857657,
+          "sharpe_annual": 0.45783829002246074,
           "max_drawdown_usd": -4440.499999999999,
-          "profit_factor": 1.1013842901265198,
+          "profit_factor": 1.102827825344268,
           "contracts_traded": 560.0,
-          "exposure": 0.994316282179873,
-          "session_hit_rate": 0.5148779672350384
+          "exposure": 0.9943181818181818,
+          "session_hit_rate": 0.5150401069518716
         }
       },
       "eia_standaside": {
         "costs_1x": {
-          "sessions": 3480,
-          "net_usd": 11938.499999999989,
-          "gross_usd": 16199.999999999993,
-          "costs_usd": 4261.5,
-          "sharpe_annual": 0.3118404333828446,
+          "sessions": 3481,
+          "net_usd": 12183.249999999989,
+          "gross_usd": 16446.999999999993,
+          "costs_usd": 4263.75,
+          "sharpe_annual": 0.3181004852492836,
           "max_drawdown_usd": -6169.999999999996,
-          "profit_factor": 1.0729241270835084,
-          "contracts_traded": 1644.0,
-          "exposure": 0.8186781609195403,
-          "session_hit_rate": 0.4982758620689655
+          "profit_factor": 1.074419137353114,
+          "contracts_traded": 1645.0,
+          "exposure": 0.8187302499281816,
+          "session_hit_rate": 0.49841999425452455
         },
         "costs_2x": {
-          "sessions": 3480,
-          "net_usd": 7676.999999999991,
-          "gross_usd": 16199.999999999993,
-          "costs_usd": 8523.0,
-          "sharpe_annual": 0.2004854064018048,
+          "sessions": 3481,
+          "net_usd": 7919.499999999991,
+          "gross_usd": 16446.999999999993,
+          "costs_usd": 8527.5,
+          "sharpe_annual": 0.20673240708514765,
           "max_drawdown_usd": -7631.999999999995,
-          "profit_factor": 1.046260643201909,
-          "contracts_traded": 1644.0,
-          "exposure": 0.8186781609195403,
-          "session_hit_rate": 0.49166666666666664
+          "profit_factor": 1.0477219179155293,
+          "contracts_traded": 1645.0,
+          "exposure": 0.8187302499281816,
+          "session_hit_rate": 0.4918126975007182
         },
         "costs_1x_excluding_uncertain_roll_windows": {
-          "sessions": 2991,
-          "net_usd": 13725.750000000002,
-          "gross_usd": 17211.0,
-          "costs_usd": 3485.25,
-          "sharpe_annual": 0.4031267940766132,
+          "sessions": 2992,
+          "net_usd": 13970.500000000005,
+          "gross_usd": 17458.000000000007,
+          "costs_usd": 3487.5,
+          "sharpe_annual": 0.41012550206094683,
           "max_drawdown_usd": -5476.749999999993,
-          "profit_factor": 1.096763618867346,
-          "contracts_traded": 1415.0,
-          "exposure": 0.8211300568371782,
-          "session_hit_rate": 0.500835840855901
+          "profit_factor": 1.098489054323899,
+          "contracts_traded": 1416.0,
+          "exposure": 0.8211898395721925,
+          "session_hit_rate": 0.5010026737967914
         }
       },
       "efie_agreement": {
         "costs_1x": {
-          "sessions": 3480,
-          "net_usd": 4029.749999999992,
-          "gross_usd": 6848.999999999992,
+          "sessions": 3481,
+          "net_usd": 4269.749999999992,
+          "gross_usd": 7088.999999999992,
           "costs_usd": 2819.25,
-          "sharpe_annual": 0.1460154096096695,
+          "sharpe_annual": 0.15460950364591433,
           "max_drawdown_usd": -4698.250000000009,
-          "profit_factor": 1.0367705598277241,
+          "profit_factor": 1.0389605056949998,
           "contracts_traded": 1051.0,
-          "exposure": 0.5298850574712644,
-          "session_hit_rate": 0.3373563218390805
+          "exposure": 0.5300201091640333,
+          "session_hit_rate": 0.3375466819879345
         },
         "costs_2x": {
-          "sessions": 3480,
-          "net_usd": 1210.4999999999927,
-          "gross_usd": 6848.999999999992,
+          "sessions": 3481,
+          "net_usd": 1450.4999999999918,
+          "gross_usd": 7088.999999999992,
           "costs_usd": 5638.5,
-          "sharpe_annual": 0.04385587481880694,
+          "sharpe_annual": 0.05251609252560829,
           "max_drawdown_usd": -5897.500000000006,
-          "profit_factor": 1.0108928442876681,
+          "profit_factor": 1.0130525160175652,
           "contracts_traded": 1051.0,
-          "exposure": 0.5298850574712644,
-          "session_hit_rate": 0.32873563218390806
+          "exposure": 0.5300201091640333,
+          "session_hit_rate": 0.32892846883079574
         },
         "costs_1x_excluding_uncertain_roll_windows": {
-          "sessions": 2991,
-          "net_usd": 5136.999999999996,
-          "gross_usd": 7359.999999999996,
+          "sessions": 2992,
+          "net_usd": 5376.999999999996,
+          "gross_usd": 7599.999999999997,
           "costs_usd": 2223.0,
-          "sharpe_annual": 0.21519491193005666,
+          "sharpe_annual": 0.22507810741908485,
           "max_drawdown_usd": -4389.5000000000055,
-          "profit_factor": 1.0556071238170497,
+          "profit_factor": 1.0582050817138944,
           "contracts_traded": 886.0,
-          "exposure": 0.5158809762621197,
-          "session_hit_rate": 0.33099297893681046
+          "exposure": 0.516042780748663,
+          "session_hit_rate": 0.33121657754010697
         }
       },
       "carry_filter": {
         "costs_1x": {
-          "sessions": 3480,
-          "net_usd": 17238.249999999993,
-          "gross_usd": 18567.999999999993,
+          "sessions": 3481,
+          "net_usd": 17478.249999999993,
+          "gross_usd": 18807.999999999993,
           "costs_usd": 1329.75,
-          "sharpe_annual": 0.4736076222674933,
+          "sharpe_annual": 0.4799942860397457,
           "max_drawdown_usd": -5048.000000000015,
-          "profit_factor": 1.1508290314113219,
+          "profit_factor": 1.1529289526642748,
           "contracts_traded": 405.0,
-          "exposure": 0.5511494252873563,
-          "session_hit_rate": 0.31494252873563217
+          "exposure": 0.5512783682849756,
+          "session_hit_rate": 0.31513932777937376
         },
         "costs_2x": {
-          "sessions": 3480,
-          "net_usd": 15908.499999999995,
-          "gross_usd": 18567.999999999993,
+          "sessions": 3481,
+          "net_usd": 16148.499999999995,
+          "gross_usd": 18807.999999999993,
           "costs_usd": 2659.5,
-          "sharpe_annual": 0.43701034444901676,
+          "sharpe_annual": 0.4434114612250418,
           "max_drawdown_usd": -5422.000000000015,
-          "profit_factor": 1.138328768314421,
+          "profit_factor": 1.140415634102865,
           "contracts_traded": 405.0,
-          "exposure": 0.5511494252873563,
-          "session_hit_rate": 0.3112068965517241
+          "exposure": 0.5512783682849756,
+          "session_hit_rate": 0.3114047687446136
         },
         "costs_1x_excluding_uncertain_roll_windows": {
-          "sessions": 2991,
-          "net_usd": 17096.5,
-          "gross_usd": 18019.0,
+          "sessions": 2992,
+          "net_usd": 17336.499999999996,
+          "gross_usd": 18258.999999999996,
           "costs_usd": 922.5,
-          "sharpe_annual": 0.5276290984696828,
+          "sharpe_annual": 0.5347806555785195,
           "max_drawdown_usd": -4315.0,
-          "profit_factor": 1.1739619291341588,
+          "profit_factor": 1.1764039999084224,
           "contracts_traded": 322.0,
-          "exposure": 0.5479772651287195,
-          "session_hit_rate": 0.3146104981611501
+          "exposure": 0.5481283422459893,
+          "session_hit_rate": 0.31483957219251335
         }
       }
     }
   },
   "tests": {
     "REF ema_20_50 (hourly) :: eia_standaside": {
-      "sessions": 388,
-      "mean_diff_usd_per_session": -1.550257731958777,
+      "sessions": 389,
+      "mean_diff_usd_per_session": -1.5462724935732788,
       "ci": [
-        -5.127963917525778,
-        3.9641108247422454
+        -5.26825192802059,
+        3.928020565552689
       ],
-      "p_one_sided": 0.5795,
-      "sharpe_diff": -0.10597878961534593,
+      "p_one_sided": 0.5995,
+      "sharpe_diff": -0.10853136830392135,
       "sharpe_diff_ci": [
-        -0.3495048729010896,
-        0.23922022821723596
+        -0.3647958184281579,
+        0.23773197108986108
       ],
       "p_holm": 1.0,
       "significant_after_holm": false
     },
     "REF ema_20_50 (hourly) :: efie_agreement": {
-      "sessions": 388,
-      "mean_diff_usd_per_session": -1.8769329896907452,
+      "sessions": 389,
+      "mean_diff_usd_per_session": -1.1060411311054201,
       "ci": [
-        -20.749259020618613,
-        20.530186855670056
+        -20.946240359897217,
+        20.89779884318763
       ],
-      "p_one_sided": 0.537,
-      "sharpe_diff": -0.2755276394475708,
+      "p_one_sided": 0.541,
+      "sharpe_diff": -0.23068056310863716,
       "sharpe_diff_ci": [
-        -1.6422172398352826,
-        1.0468389279503674
+        -1.6604734758918867,
+        1.0998044835693013
       ],
       "p_holm": 1.0,
       "significant_after_holm": false
     },
     "REF ema_20_50 (hourly) :: carry_filter": {
-      "sessions": 388,
-      "mean_diff_usd_per_session": 6.433634020618562,
+      "sessions": 389,
+      "mean_diff_usd_per_session": 7.229434447300774,
       "ci": [
-        -4.993653350515462,
-        21.66353092783506
+        -5.315922236503835,
+        20.84897172236506
       ],
-      "p_one_sided": 0.1065,
-      "sharpe_diff": 0.4644677909165366,
+      "p_one_sided": 0.1185,
+      "sharpe_diff": 0.5133918199520364,
       "sharpe_diff_ci": [
-        -0.277465177025797,
-        1.385801118852038
+        -0.2515109619140788,
+        1.3447064685979806
       ],
-      "p_holm": 0.9585,
+      "p_holm": 1.0,
       "significant_after_holm": false
     },
     "REF donchian_24 (hourly) :: eia_standaside": {
-      "sessions": 388,
-      "mean_diff_usd_per_session": -3.7216494845360755,
+      "sessions": 389,
+      "mean_diff_usd_per_session": -3.71208226221079,
       "ci": [
-        -7.320135309278341,
-        1.9177835051546424
+        -7.341323907455035,
+        1.8483611825192965
       ],
-      "p_one_sided": 0.869,
-      "sharpe_diff": -0.2248272024473088,
+      "p_one_sided": 0.8805,
+      "sharpe_diff": -0.2250139957893633,
       "sharpe_diff_ci": [
-        -0.4701728705692203,
-        0.12216881498155559
+        -0.4897867870735216,
+        0.1100015369950776
       ],
       "p_holm": 1.0,
       "significant_after_holm": false
     },
     "REF donchian_24 (hourly) :: efie_agreement": {
-      "sessions": 388,
-      "mean_diff_usd_per_session": -8.264819587628873,
+      "sessions": 389,
+      "mean_diff_usd_per_session": -7.714010282776357,
       "ci": [
-        -23.778447164948535,
-        10.165850515463875
+        -23.49285025706938,
+        9.955944730077086
       ],
       "p_one_sided": 0.783,
-      "sharpe_diff": -0.5301794654136339,
+      "sharpe_diff": -0.4888088808322688,
       "sharpe_diff_ci": [
-        -1.7920540308039714,
-        0.7214069657792891
+        -1.8057151963209241,
+        0.7150567273333606
       ],
       "p_holm": 1.0,
       "significant_after_holm": false
     },
     "REF donchian_24 (hourly) :: carry_filter": {
-      "sessions": 388,
-      "mean_diff_usd_per_session": 1.7197164948453825,
+      "sessions": 389,
+      "mean_diff_usd_per_session": 2.296915167095136,
       "ci": [
-        -9.249999999999972,
-        18.003624355670144
+        -10.075016066838034,
+        17.886680591259648
       ],
-      "p_one_sided": 0.276,
-      "sharpe_diff": 0.30075637640133823,
+      "p_one_sided": 0.295,
+      "sharpe_diff": 0.34127817404585675,
       "sharpe_diff_ci": [
-        -0.5172687716750533,
-        1.3548064525277794
+        -0.5560129244620989,
+        1.3405344939601624
       ],
       "p_holm": 1.0,
       "significant_after_holm": false
     },
     "REF momentum_20 (daily) :: eia_standaside": {
-      "sessions": 3480,
-      "mean_diff_usd_per_session": -0.5640086206896543,
+      "sessions": 3481,
+      "mean_diff_usd_per_session": -0.562482045389255,
       "ci": [
-        -3.1744630028735603,
-        1.7720240660919444
+        -3.140282964665325,
+        1.7842861246768176
       ],
-      "p_one_sided": 0.718,
-      "sharpe_diff": -0.01867810649917473,
+      "p_one_sided": 0.721,
+      "sharpe_diff": -0.018002846790319937,
       "sharpe_diff_ci": [
-        -0.27678225955277475,
-        0.17691795279106692
+        -0.26606342928279303,
+        0.17642543633288446
       ],
       "p_holm": 1.0,
       "significant_after_holm": false
     },
     "REF momentum_20 (daily) :: efie_agreement": {
-      "sessions": 3480,
-      "mean_diff_usd_per_session": -2.836637931034483,
+      "sessions": 3481,
+      "mean_diff_usd_per_session": -2.835823039356507,
       "ci": [
-        -8.050671695402297,
-        1.8827460488505767
+        -8.320387460499848,
+        1.869739299051997
       ],
-      "p_one_sided": 0.8665,
-      "sharpe_diff": -0.1845269608428218,
+      "p_one_sided": 0.8555,
+      "sharpe_diff": -0.18151731678998934,
       "sharpe_diff_ci": [
-        -0.5557836753292118,
-        0.24988578521786114
+        -0.5447757103047646,
+        0.23263260845986516
       ],
       "p_holm": 1.0,
       "significant_after_holm": false
     },
     "REF momentum_20 (daily) :: carry_filter": {
-      "sessions": 3480,
-      "mean_diff_usd_per_session": 0.9589080459770128,
+      "sessions": 3481,
+      "mean_diff_usd_per_session": 0.9586325768457353,
       "ci": [
-        -1.565168821839077,
-        3.675305316091952
+        -1.6225797184716984,
+        3.589103346739444
       ],
-      "p_one_sided": 0.228,
-      "sharpe_diff": 0.14311232980801042,
+      "p_one_sided": 0.2295,
+      "sharpe_diff": 0.1439142129329236,
       "sharpe_diff_ci": [
-        -0.08214282621140451,
-        0.3997256714919237
+        -0.07431684347410784,
+        0.40356615291026043
       ],
       "p_holm": 1.0,
       "significant_after_holm": false

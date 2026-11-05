@@ -99,15 +99,15 @@
     },
     "H3_eia_surprise_next_session": {
       "question": "Does the crude surprise predict the next session (open\u2192settle) after release day?",
-      "n": 597,
-      "rho": 0.020432288713437677,
+      "n": 598,
+      "rho": 0.018440985784417028,
       "ci": [
-        -0.05889760218725644,
-        0.09780803147411017
+        -0.06206110945165605,
+        0.09919000091726989
       ],
-      "p": 0.55,
+      "p": 0.608,
       "start": "2015-04-11 00:00:00+00:00",
-      "end": "2026-10-23 00:00:00+00:00",
+      "end": "2026-10-30 00:00:00+00:00",
       "p_holm": 1.0,
       "significant_after_holm": false
     },
@@ -169,15 +169,15 @@
     },
     "H8_spread12_pct_vs_next_session": {
       "question": "Does the M1\u2013M2 spread (backwardation > 0) predict the next WTI session?",
-      "n": 4238,
-      "rho": -0.011872353861402604,
+      "n": 4239,
+      "rho": -0.011408932911530126,
       "ci": [
-        -0.042952630066795484,
-        0.020486600996284226
+        -0.04272091213224881,
+        0.021393095690319833
       ],
-      "p": 0.494,
+      "p": 0.492,
       "start": "2010-01-04 00:00:00",
-      "end": "2026-11-03 00:00:00",
+      "end": "2026-11-04 00:00:00",
       "p_holm": 1.0,
       "significant_after_holm": false
     },
