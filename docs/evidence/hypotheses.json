@@ -169,15 +169,15 @@
     },
     "H8_spread12_pct_vs_next_session": {
       "question": "Does the M1\u2013M2 spread (backwardation > 0) predict the next WTI session?",
-      "n": 4240,
-      "rho": -0.011536358994805563,
+      "n": 4241,
+      "rho": -0.01207134913509789,
       "ci": [
-        -0.04364055860539469,
-        0.021595079920439474
+        -0.043210271182687,
+        0.02096049556937657
       ],
-      "p": 0.506,
+      "p": 0.518,
       "start": "2010-01-04 00:00:00",
-      "end": "2026-11-05 00:00:00",
+      "end": "2026-11-06 00:00:00",
       "p_holm": 1.0,
       "significant_after_holm": false
     },
