@@ -3,97 +3,97 @@
     "S1_eia_surprise_vs_release_bar_return": {
       "question": "Does the hourly bar containing the EIA release move against the crude surprise?",
       "expected_sign": -1,
-      "n": 96,
-      "rho": -0.0017362995116657625,
+      "n": 97,
+      "rho": 0.01647643593519882,
       "ci": [
-        -0.16420644045273286,
-        0.1612119815693716
+        -0.16393055298371206,
+        0.16358043081047893
       ],
-      "p": 0.99,
+      "p": 0.98,
       "start": "2024-12-27 00:00:00+00:00",
-      "end": "2026-10-30 00:00:00+00:00"
+      "end": "2026-11-06 00:00:00+00:00"
     },
     "S2_api_change_vs_release_bar_return": {
       "question": "Does the hourly bar containing the API release move against the API crude change?",
       "expected_sign": -1,
-      "n": 85,
-      "rho": -0.1367038636935607,
+      "n": 86,
+      "rho": -0.11924372366335541,
       "ci": [
-        -0.324874382008111,
-        0.11055657928949165
+        -0.31347062959050537,
+        0.10830802860587539
       ],
-      "p": 0.367,
+      "p": 0.358,
       "start": "2025-01-03 00:00:00+00:00",
-      "end": "2026-10-30 00:00:00+00:00"
+      "end": "2026-11-06 00:00:00+00:00"
     },
     "S3_eia_surprise_vs_release_day_session": {
       "question": "Does the release-day session (open\u2192settle) move against the crude surprise?",
       "expected_sign": -1,
-      "n": 598,
-      "rho": -0.06216590359157586,
+      "n": 599,
+      "rho": -0.058960031432545496,
       "ci": [
-        -0.13992038171580107,
-        0.021434845017087412
+        -0.13892453962290294,
+        0.023849909988402758
       ],
-      "p": 0.149,
+      "p": 0.137,
       "start": "2015-04-11 00:00:00+00:00",
-      "end": "2026-10-30 00:00:00+00:00"
+      "end": "2026-11-06 00:00:00+00:00"
     },
     "S4_eia_surprise_vs_settle_to_settle": {
       "question": "Prior settlement \u2192 release-day settlement (includes the API reaction the evening before).",
       "expected_sign": -1,
       "post_hoc": true,
-      "n": 598,
-      "rho": -0.15537217300734749,
+      "n": 599,
+      "rho": -0.1521079725964679,
       "ci": [
-        -0.23365082392059025,
-        -0.07129396061453055
+        -0.23230660371585257,
+        -0.06867982322172804
       ],
-      "p": 0.0,
+      "p": 0.001,
       "start": "2015-04-11 00:00:00+00:00",
-      "end": "2026-10-30 00:00:00+00:00"
+      "end": "2026-11-06 00:00:00+00:00"
     },
     "S5_eia_minus_api_vs_release_day_session": {
       "question": "Does the EIA figure's deviation from the API figure move the release-day session against it?",
       "expected_sign": -1,
       "post_hoc": true,
-      "n": 450,
-      "rho": -0.027263876647399946,
+      "n": 451,
+      "rho": -0.030606524460201998,
       "ci": [
-        -0.11689235476869553,
-        0.07905147052584087
+        -0.11713266871930238,
+        0.07788527129643119
       ],
-      "p": 0.653,
+      "p": 0.612,
       "start": "2018-02-16 00:00:00+00:00",
-      "end": "2026-10-30 00:00:00+00:00"
+      "end": "2026-11-06 00:00:00+00:00"
     }
   },
   "family": {
     "H1_eia_surprise_drift_1h": {
       "question": "After the release bar closes, does the next hour continue (or reverse) the surprise?",
-      "n": 96,
-      "rho": 0.1419017905588714,
+      "n": 97,
+      "rho": 0.14572375341889332,
       "ci": [
-        -0.03407333948600937,
-        0.2983845630053994
+        -0.015726551211894542,
+        0.30583616682638626
       ],
-      "p": 0.107,
+      "p": 0.084,
       "start": "2024-12-27 00:00:00+00:00",
-      "end": "2026-10-30 00:00:00+00:00",
-      "p_holm": 0.963,
+      "end": "2026-11-06 00:00:00+00:00",
+      "p_holm": 0.756,
       "significant_after_holm": false
     },
     "H2_eia_surprise_drift_4h": {
       "question": "Same, over the next four hours.",
-      "n": 96,
-      "rho": 0.10895279435702658,
+      "n": 97,
+      "rho": 0.12113402061855669,
       "ci": [
-        -0.0583580789543541,
-        0.27521948953458064
+        -0.05636490946765361,
+        0.27684389098722423
       ],
-      "p": 0.218,
+      "p": 0.191,
       "start": "2024-12-27 00:00:00+00:00",
-      "end": "2026-10-30 00:00:00+00:00",
+      "end": "2026-11-06 00:00:00+00:00",
       "p_holm": 1.0,
       "significant_after_holm": false
     },
@@ -113,71 +113,71 @@
     },
     "H4_api_surprise_predicts_eia_surprise": {
       "question": "Does the API surprise (Tuesday) predict the EIA surprise (Wednesday)?",
-      "n": 270,
-      "rho": 0.6895375793906637,
+      "n": 271,
+      "rho": 0.6921966572606902,
       "ci": [
-        0.6113945624541484,
-        0.7604572292657358
+        0.6136284745372473,
+        0.7603452788217478
       ],
       "p": 0.0,
       "start": "2020-12-04 00:00:00+00:00",
-      "end": "2026-10-30 00:00:00+00:00",
+      "end": "2026-11-06 00:00:00+00:00",
       "p_holm": 0.0,
       "significant_after_holm": true
     },
     "H5_api_change_drift_until_eia": {
       "question": "Does the API crude change predict the move from the API bar close to just before EIA?",
-      "n": 84,
-      "rho": -0.09834970132631365,
+      "n": 85,
+      "rho": -0.08278288059409811,
       "ci": [
-        -0.32486747000204697,
-        0.0968667165816745
+        -0.3196212165939646,
+        0.11512670448869915
       ],
-      "p": 0.302,
+      "p": 0.363,
       "start": "2025-01-03 00:00:00+00:00",
-      "end": "2026-10-30 00:00:00+00:00",
+      "end": "2026-11-06 00:00:00+00:00",
       "p_holm": 1.0,
       "significant_after_holm": false
     },
     "H6_cushing_change_vs_next5_spread_change": {
       "question": "Do Cushing builds (draws) precede a weaker (stronger) M1\u2013M2 spread over 5 sessions?",
-      "n": 261,
-      "rho": -0.006119305196231499,
+      "n": 262,
+      "rho": -0.005692508778636494,
       "ci": [
-        -0.15748880110223007,
-        0.10109537367145592
+        -0.15126849872800388,
+        0.10634284209906884
       ],
-      "p": 0.747,
+      "p": 0.755,
       "start": "2020-04-17 00:00:00+00:00",
-      "end": "2026-10-23 00:00:00+00:00",
+      "end": "2026-10-30 00:00:00+00:00",
       "p_holm": 1.0,
       "significant_after_holm": false
     },
     "H7_crack321_chg5_vs_next_session": {
       "question": "Does 5-day 3-2-1 crack momentum predict the next WTI session?",
-      "n": 1315,
-      "rho": -0.0034630572137101493,
+      "n": 1317,
+      "rho": -0.004750271819107595,
       "ci": [
-        -0.05710396676383453,
-        0.05301170042134262
+        -0.058804712987514975,
+        0.05470525978965917
       ],
-      "p": 0.916,
+      "p": 0.939,
       "start": "2010-01-11 00:00:00",
-      "end": "2026-11-09 00:00:00",
+      "end": "2026-11-11 00:00:00",
       "p_holm": 1.0,
       "significant_after_holm": false
     },
     "H8_spread12_pct_vs_next_session": {
       "question": "Does the M1\u2013M2 spread (backwardation > 0) predict the next WTI session?",
-      "n": 4242,
-      "rho": -0.012204773243113864,
+      "n": 4244,
+      "rho": -0.011731731009641862,
       "ci": [
-        -0.04292544029279012,
-        0.02098851134392416
+        -0.043823875571901566,
+        0.020245587088775767
       ],
-      "p": 0.514,
+      "p": 0.498,
       "start": "2010-01-04 00:00:00",
-      "end": "2026-11-09 00:00:00",
+      "end": "2026-11-11 00:00:00",
       "p_holm": 1.0,
       "significant_after_holm": false
     },
